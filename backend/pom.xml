@@ -18,6 +18,14 @@
         <java.version>12</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>zemberek-repo</id>
+            <name>zemberek Maven Repo on Github</name>
+            <url>https://raw.github.com/ahmetaa/maven-repo/master</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,8 +55,25 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>zemberek-nlp</groupId>
+            <artifactId>zemberek-morphology</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>zemberek-nlp</groupId>
+            <artifactId>zemberek-normalization</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>zemberek-nlp</groupId>
+            <artifactId>zemberek-tokenization</artifactId>
+            <version>0.16.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
     <build>
