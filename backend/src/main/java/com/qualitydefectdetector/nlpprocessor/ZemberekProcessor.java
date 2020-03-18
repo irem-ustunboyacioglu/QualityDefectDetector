@@ -19,7 +19,6 @@ public class ZemberekProcessor {
     private TurkishSpellChecker spellChecker;
     private TurkishSentenceExtractor extractor = TurkishSentenceExtractor.DEFAULT;
     private TurkishTokenizer tokenizerDefault = TurkishTokenizer.DEFAULT;
-    private TurkishTokenizer tokenizerAll = TurkishTokenizer.ALL;
 
     public ZemberekProcessor() throws IOException {
         turkishMorphology = TurkishMorphology.createWithDefaults();

@@ -1,6 +1,6 @@
 package com.qualitydefectdetector.service;
 
-import com.qualitydefectdetector.model.request.UserStoryRequestRow;
+import com.qualitydefectdetector.model.request.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import com.qualitydefectdetector.parser.UserStoryParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserStoryDefectService {
                 .collect(Collectors.toList());
     }
 
-    public UserStoryRequestRow parse(String sentence){
+    public UserStory parse(String sentence){
         return userStoryParser.parseSentenceWithType(sentence);
     }
 }

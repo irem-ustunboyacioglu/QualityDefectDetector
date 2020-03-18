@@ -1,7 +1,7 @@
 package com.qualitydefectdetector.parser;
 
 import com.google.common.collect.Sets;
-import com.qualitydefectdetector.model.request.UserStoryRequestRow;
+import com.qualitydefectdetector.model.request.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.qualitydefectdetector.enums.UserStoryType.ROLE_GOAL_REASON;
-import static com.qualitydefectdetector.model.request.UserStoryRequestRow.UserStoryRequestRowBuilder.anUserStoryRequestRow;
+import static com.qualitydefectdetector.model.request.UserStory.UserStoryBuilder.aUserStory;
 
 @Service
 public class UserStoryParser {
@@ -28,7 +28,7 @@ public class UserStoryParser {
         return Arrays.asList(normalizedSentence.split("\\s+"));
     }
 
-    public UserStoryRequestRow parseSentenceWithType(String sentence) {
+    public UserStory parseSentenceWithType(String sentence) {
         String normalizedUserStory = normalize(sentence);
         List<Token> tokens = zemberekProcessor.tokenize(sentence);
 
@@ -39,21 +39,17 @@ public class UserStoryParser {
         }
     }
 
-    private UserStoryRequestRow parseRoleReasonGoalFormat(List<Token> tokens, String userStory) {
+    private UserStory parseRoleReasonGoalFormat(List<Token> tokens, String userStory) {
         String rolePart = userStory.substring(0, parseRole(tokens));
         String goalPart = userStory.substring(parseRole(tokens) + 7, parseGoal(tokens) + 1);
         String reasonPart = userStory.substring(parseGoal(tokens) + 1);
-        return anUserStoryRequestRow()
+        return aUserStory()
                 .role(rolePart)
                 .goal(goalPart)
                 .reason(reasonPart)
-                .userStorySentenceType(ROLE_GOAL_REASON)
+                .userStoryType(ROLE_GOAL_REASON)
                 .userStorySentence(userStory)
                 .build();
-    }
-
-    private String normalize(String input) {
-        return input.replaceAll("[^a-zA-Z0-9 ÇçĞğİıÖöŞşÜü]", "").toLowerCase();
     }
 
     public int parseRole(List<Token> tokens) {
@@ -77,5 +73,9 @@ public class UserStoryParser {
             }
         }
         return -1;
+    }
+
+    private String normalize(String input) {
+        return input.replaceAll("[^a-zA-Z0-9 ÇçĞğİıÖöŞşÜü]", "").toLowerCase();
     }
 }

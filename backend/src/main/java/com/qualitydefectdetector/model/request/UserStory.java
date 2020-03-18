@@ -2,7 +2,7 @@ package com.qualitydefectdetector.model.request;
 
 import com.qualitydefectdetector.enums.UserStoryType;
 
-public class UserStoryRequestRow {
+public class UserStory {
 
     private UserStoryType userStoryType;
     private String userStorySentence;
@@ -50,54 +50,53 @@ public class UserStoryRequestRow {
         this.reason = reason;
     }
 
-
-    public static final class UserStoryRequestRowBuilder {
+    public static final class UserStoryBuilder {
         private UserStoryType userStoryType;
         private String userStorySentence;
         private String role;
         private String goal;
         private String reason;
 
-        private UserStoryRequestRowBuilder() {
+        private UserStoryBuilder() {
         }
 
-        public static UserStoryRequestRowBuilder anUserStoryRequestRow() {
-            return new UserStoryRequestRowBuilder();
+        public static UserStoryBuilder aUserStory() {
+            return new UserStoryBuilder();
         }
 
-        public UserStoryRequestRowBuilder userStorySentenceType(UserStoryType userStoryType) {
+        public UserStoryBuilder userStoryType(UserStoryType userStoryType) {
             this.userStoryType = userStoryType;
             return this;
         }
 
-        public UserStoryRequestRowBuilder userStorySentence(String userStorySentence) {
+        public UserStoryBuilder userStorySentence(String userStorySentence) {
             this.userStorySentence = userStorySentence;
             return this;
         }
 
-        public UserStoryRequestRowBuilder role(String role) {
+        public UserStoryBuilder role(String role) {
             this.role = role;
             return this;
         }
 
-        public UserStoryRequestRowBuilder goal(String goal) {
+        public UserStoryBuilder goal(String goal) {
             this.goal = goal;
             return this;
         }
 
-        public UserStoryRequestRowBuilder reason(String reason) {
+        public UserStoryBuilder reason(String reason) {
             this.reason = reason;
             return this;
         }
 
-        public UserStoryRequestRow build() {
-            UserStoryRequestRow userStoryRequestRow = new UserStoryRequestRow();
-            userStoryRequestRow.setUserStoryType(userStoryType);
-            userStoryRequestRow.setUserStorySentence(userStorySentence);
-            userStoryRequestRow.setRole(role);
-            userStoryRequestRow.setGoal(goal);
-            userStoryRequestRow.setReason(reason);
-            return userStoryRequestRow;
+        public UserStory build() {
+            UserStory userStory = new UserStory();
+            userStory.setUserStoryType(userStoryType);
+            userStory.setUserStorySentence(userStorySentence);
+            userStory.setRole(role);
+            userStory.setGoal(goal);
+            userStory.setReason(reason);
+            return userStory;
         }
     }
 }
