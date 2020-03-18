@@ -21,7 +21,7 @@ public class UserStoryDefectController {
         this.userStoryDefectService = userStoryDefectService;
     }
 
-    @GetMapping("/parse-format-1")
+    @GetMapping("/parse-format")
     public UserStory detect(@RequestParam String sentence) {
         return userStoryDefectService.parse(sentence);
     }
