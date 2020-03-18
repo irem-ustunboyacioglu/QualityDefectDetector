@@ -1,5 +1,6 @@
 package com.qualitydefectdetector.controller;
 
+import com.qualitydefectdetector.model.request.UserStoryRequestRow;
 import com.qualitydefectdetector.service.UserStoryDefectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class UserStoryDefectController {
     @Autowired
     public UserStoryDefectController(UserStoryDefectService userStoryDefectService) {
         this.userStoryDefectService = userStoryDefectService;
+    }
+
+    @GetMapping("/parse-format-1")
+    public UserStoryRequestRow detect(@RequestParam String sentence) {
+        return userStoryDefectService.parse(sentence);
     }
 
     @GetMapping("/check-spelling")
