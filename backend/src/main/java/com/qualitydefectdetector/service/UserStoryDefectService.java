@@ -1,6 +1,8 @@
 package com.qualitydefectdetector.service;
 
-import com.qualitydefectdetector.model.request.UserStory;
+import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
+import com.qualitydefectdetector.model.CriteriaCheckResult;
+import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import com.qualitydefectdetector.parser.UserStoryParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +16,15 @@ public class UserStoryDefectService {
 
     private final UserStoryParser userStoryParser;
     private final ZemberekProcessor zemberekProcessor;
+    private final WellFormedCriteriaChecker wellFormedCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
-                                  ZemberekProcessor zemberekProcessor) {
+                                  ZemberekProcessor zemberekProcessor,
+                                  WellFormedCriteriaChecker wellFormedCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
+        this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
     }
 
     public List<List<String>> checkSpells(String sentence) {
@@ -29,7 +34,27 @@ public class UserStoryDefectService {
                 .collect(Collectors.toList());
     }
 
-    public UserStory parse(String sentence){
+    public UserStory parse(String sentence) {
         return userStoryParser.parseSentenceWithType(sentence);
     }
+
+    public CriteriaCheckResult checkWellFormedCriteria(String sentence) {
+        UserStory userStory = parse(sentence);
+
+        CriteriaCheckResult rolePartResult = wellFormedCriteriaChecker.checkRolePart(userStory);
+        if(!rolePartResult.isSatisfiesThisCriteria()){
+            return rolePartResult;
+        }
+
+        CriteriaCheckResult meansPartResult =  wellFormedCriteriaChecker.checkGoalPart(userStory);
+        if(!meansPartResult.isSatisfiesThisCriteria()){
+            return meansPartResult;
+        }
+
+        return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+                .satisfiesThisCriteria(true)
+                .errorMessage("")
+                .build();
+    }
+
 }

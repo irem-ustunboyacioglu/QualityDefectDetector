@@ -1,4 +1,4 @@
-package com.qualitydefectdetector.model.request;
+package com.qualitydefectdetector.model;
 
 import com.qualitydefectdetector.enums.UserStoryType;
 

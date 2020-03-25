@@ -1,6 +1,7 @@
 package com.qualitydefectdetector.controller;
 
-import com.qualitydefectdetector.model.request.UserStory;
+import com.qualitydefectdetector.model.CriteriaCheckResult;
+import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.service.UserStoryDefectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,4 +31,10 @@ public class UserStoryDefectController {
     public List<List<String>> checkSpells(@RequestParam String sentence) {
         return userStoryDefectService.checkSpells(sentence);
     }
+
+    @GetMapping("/well-formed")
+    public CriteriaCheckResult checkWellFormedCriteria(@RequestParam String sentence) {
+        return userStoryDefectService.checkWellFormedCriteria(sentence);
+    }
+
 }
