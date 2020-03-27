@@ -1,7 +1,7 @@
 package com.qualitydefectdetector.parser;
 
 import com.google.common.collect.Sets;
-import com.qualitydefectdetector.model.request.UserStory;
+import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.qualitydefectdetector.enums.UserStoryType.*;
-import static com.qualitydefectdetector.model.request.UserStory.UserStoryBuilder.aUserStory;
+import static com.qualitydefectdetector.model.UserStory.UserStoryBuilder.aUserStory;
 
 @Service
 public class UserStoryParser {
@@ -33,7 +33,7 @@ public class UserStoryParser {
         List<Token> tokens = zemberekProcessor.tokenize(sentence);
 
         if (Pattern.matches(ROLE_GOAL_REASON.getFormatRegex(), normalizedUserStory)) {
-            return parseRoleGoleReasonFormat(tokens, sentence);
+            return parseRoleGoleReasonFormat(tokens, normalizedUserStory);
         }else if(Pattern.matches(ROLE_REASON_GOAL.getFormatRegex(),normalizedUserStory)){
             return parseRoleReasonGoalFormat(tokens,normalizedUserStory);
         }else if(Pattern.matches(ROLE_GOAL.getFormatRegex(),normalizedUserStory)){
@@ -46,8 +46,8 @@ public class UserStoryParser {
 
     private UserStory parseRoleGoleReasonFormat(List<Token> tokens, String userStory) {
         String rolePart = userStory.substring(0, parseRole(tokens));
-        String goalPart = userStory.substring(parseRole(tokens) + 7, parseGoal(tokens) + 1);
-        String reasonPart = userStory.substring(parseGoal(tokens) + 1);
+        String goalPart = userStory.substring(parseRole(tokens) + 1, parseGoal(tokens) + 1);
+        String reasonPart = userStory.substring(parseGoal(tokens) + 2);
         return aUserStory()
                 .role(rolePart)
                 .goal(goalPart)
@@ -58,7 +58,7 @@ public class UserStoryParser {
     }
     private UserStory parseRoleReasonGoalFormat(List<Token> tokens, String userStory){
         String rolePart = userStory.substring(0,parseRole(tokens));
-        String reasonPart = userStory.substring(rolePart.length() + 7,parseReason(tokens,2) + 1);
+        String reasonPart = userStory.substring(rolePart.length() + 1, parseReason(tokens,2) + 1);
         String goalPart = userStory.substring(parseReason(tokens,2) + 2);
         return aUserStory()
                 .role(rolePart)
@@ -71,11 +71,11 @@ public class UserStoryParser {
 
     private UserStory parseRoleGoalFormat(List<Token> tokens, String userStory){
         String rolePart = userStory.substring(0,parseRole(tokens));
-        String goalPart = userStory.substring(parseRole(tokens) + 7);
+        String goalPart = userStory.substring(parseRole(tokens) + 1);
         return aUserStory()
                 .role(rolePart)
                 .goal(goalPart)
-                .userStoryType(ROLE_REASON_GOAL)
+                .userStoryType(ROLE_GOAL)
                 .userStorySentence(userStory)
                 .build();
     }
@@ -83,7 +83,7 @@ public class UserStoryParser {
     public int parseRole(List<Token> tokens) {
         for (Token token : tokens) {
             if (token.getText().equals("olarak")) {
-                return token.getStartIndex();
+                return token.getStopIndex() + 1;
             }
         }
         return -1;

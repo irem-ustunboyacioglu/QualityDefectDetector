@@ -3,6 +3,7 @@ package com.qualitydefectdetector.nlpprocessor;
 import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
 import zemberek.morphology.TurkishMorphology;
+import zemberek.morphology.analysis.SingleAnalysis;
 import zemberek.normalization.TurkishSpellChecker;
 import zemberek.tokenization.TurkishSentenceExtractor;
 import zemberek.tokenization.TurkishTokenizer;
@@ -38,5 +39,10 @@ public class ZemberekProcessor {
 
     public List<Token> tokenize(String sentence) {
         return tokenizerDefault.tokenize(sentence);
+    }
+
+    public List<SingleAnalysis> analyzeAndDisambiguate(String sentence) {
+        return turkishMorphology.analyzeAndDisambiguate(sentence)
+                .bestAnalysis();
     }
 }
