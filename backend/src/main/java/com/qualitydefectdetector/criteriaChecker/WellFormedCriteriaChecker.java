@@ -17,12 +17,11 @@ public class WellFormedCriteriaChecker {
     @Autowired
     public WellFormedCriteriaChecker(ZemberekProcessor zemberekProcessor) {
         this.zemberekProcessor = zemberekProcessor;
-
     }
 
     public CriteriaCheckResult checkRolePart(UserStory userStory) {
         String rolePart = userStory.getRole().toLowerCase();
-        List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getGoal());
+        List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(rolePart);
 
         if ((!rolePart.contains("bir") && rolePart.split("\\s+").length < 2) ||
                 (rolePart.contains("bir") && rolePart.contains("olarak") && rolePart.split("\\s+").length == 2)) {
@@ -31,9 +30,15 @@ public class WellFormedCriteriaChecker {
                     .errorMessage("A user story should contain a role part in format of \"Bir [persona] olarak\" or [persona] olarak\"")
                     .build();
         }
-        boolean verbExist = true;
+        boolean verbExist = false;
         for (SingleAnalysis item : analysis){
-            if(item.formatLong().contains("Verb")){
+            String itemAnalysis = item.formatLong();
+            if(itemAnalysis.contains("→")){
+                int index = itemAnalysis.indexOf("→");
+                if(itemAnalysis.substring(index+1).contains("Verb")){
+                    verbExist = true;
+                }
+            }else if(itemAnalysis.contains("Verb")){
                 verbExist = true;
             }
         }
