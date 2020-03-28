@@ -37,4 +37,9 @@ public class UserStoryDefectController {
         return userStoryDefectService.checkWellFormedCriteria(sentence);
     }
 
+    @GetMapping("/minimal")
+    public CriteriaCheckResult checkMinimalCriteria(@RequestParam String sentence) {
+        return userStoryDefectService.checkMinimalCriteria(sentence);
+    }
+
 }
