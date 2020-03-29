@@ -37,4 +37,9 @@ public class UserStoryDefectController {
         return userStoryDefectService.checkWellFormedCriteria(sentence);
     }
 
+    @GetMapping("/atomic")
+    public CriteriaCheckResult checkAtomicCriteria(@RequestParam String sentence) {
+        return userStoryDefectService.checkAtomicCriteria(sentence);
+    }
+
 }

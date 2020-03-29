@@ -1,5 +1,6 @@
 package com.qualitydefectdetector.service;
 
+import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
 import com.qualitydefectdetector.model.UserStory;
@@ -17,14 +18,17 @@ public class UserStoryDefectService {
     private final UserStoryParser userStoryParser;
     private final ZemberekProcessor zemberekProcessor;
     private final WellFormedCriteriaChecker wellFormedCriteriaChecker;
+    private final AtomicCriteriaChecker atomicCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
                                   ZemberekProcessor zemberekProcessor,
-                                  WellFormedCriteriaChecker wellFormedCriteriaChecker) {
+                                  WellFormedCriteriaChecker wellFormedCriteriaChecker,
+                                  AtomicCriteriaChecker atomicCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
+        this.atomicCriteriaChecker = atomicCriteriaChecker;
     }
 
     public List<List<String>> checkSpells(String sentence) {
@@ -42,12 +46,12 @@ public class UserStoryDefectService {
         UserStory userStory = parse(sentence);
 
         CriteriaCheckResult rolePartResult = wellFormedCriteriaChecker.checkRolePart(userStory);
-        if(!rolePartResult.isSatisfiesThisCriteria()){
+        if (!rolePartResult.isSatisfiesThisCriteria()) {
             return rolePartResult;
         }
 
-        CriteriaCheckResult meansPartResult =  wellFormedCriteriaChecker.checkGoalPart(userStory);
-        if(!meansPartResult.isSatisfiesThisCriteria()){
+        CriteriaCheckResult meansPartResult = wellFormedCriteriaChecker.checkGoalPart(userStory);
+        if (!meansPartResult.isSatisfiesThisCriteria()) {
             return meansPartResult;
         }
 
@@ -57,4 +61,8 @@ public class UserStoryDefectService {
                 .build();
     }
 
+    public CriteriaCheckResult checkAtomicCriteria(String sentence) {
+        UserStory userStory = parse(sentence);
+        return atomicCriteriaChecker.checkIsAtomic(userStory);
+    }
 }
