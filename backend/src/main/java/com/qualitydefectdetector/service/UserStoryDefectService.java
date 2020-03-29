@@ -1,6 +1,7 @@
 package com.qualitydefectdetector.service;
 
 import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
+import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
 import com.qualitydefectdetector.model.UserStory;
@@ -19,17 +20,21 @@ public class UserStoryDefectService {
     private final ZemberekProcessor zemberekProcessor;
     private final WellFormedCriteriaChecker wellFormedCriteriaChecker;
     private final AtomicCriteriaChecker atomicCriteriaChecker;
+    private final MinimalCriteriaChecker minimalCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
                                   ZemberekProcessor zemberekProcessor,
                                   WellFormedCriteriaChecker wellFormedCriteriaChecker,
-                                  AtomicCriteriaChecker atomicCriteriaChecker) {
+                                  AtomicCriteriaChecker atomicCriteriaChecker,
+                                  MinimalCriteriaChecker minimalCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
         this.atomicCriteriaChecker = atomicCriteriaChecker;
+        this.minimalCriteriaChecker = minimalCriteriaChecker;
     }
+
 
     public List<List<String>> checkSpells(String sentence) {
         List<String> words = userStoryParser.parseSentence(sentence);
@@ -64,5 +69,21 @@ public class UserStoryDefectService {
     public CriteriaCheckResult checkAtomicCriteria(String sentence) {
         UserStory userStory = parse(sentence);
         return atomicCriteriaChecker.checkIsAtomic(userStory);
+    }
+    public CriteriaCheckResult checkMinimalCriteria(String sentence) {
+        CriteriaCheckResult extraNoteResult = minimalCriteriaChecker.checkIfThereExistExtraNote(sentence);
+        if(!extraNoteResult.isSatisfiesThisCriteria()){
+            return extraNoteResult;
+        }
+
+        CriteriaCheckResult isOneSentenceResult = minimalCriteriaChecker.checkIfItIsOneSentence(sentence);
+        if(!isOneSentenceResult.isSatisfiesThisCriteria()){
+            return isOneSentenceResult;
+        }
+
+        return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+                .satisfiesThisCriteria(true)
+                .errorMessage("")
+                .build();
     }
 }
