@@ -1,5 +1,6 @@
 package com.qualitydefectdetector.service;
 
+import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
@@ -18,18 +19,22 @@ public class UserStoryDefectService {
     private final UserStoryParser userStoryParser;
     private final ZemberekProcessor zemberekProcessor;
     private final WellFormedCriteriaChecker wellFormedCriteriaChecker;
+    private final AtomicCriteriaChecker atomicCriteriaChecker;
     private final MinimalCriteriaChecker minimalCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
                                   ZemberekProcessor zemberekProcessor,
                                   WellFormedCriteriaChecker wellFormedCriteriaChecker,
+                                  AtomicCriteriaChecker atomicCriteriaChecker,
                                   MinimalCriteriaChecker minimalCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
+        this.atomicCriteriaChecker = atomicCriteriaChecker;
         this.minimalCriteriaChecker = minimalCriteriaChecker;
     }
+
 
     public List<List<String>> checkSpells(String sentence) {
         List<String> words = userStoryParser.parseSentence(sentence);
@@ -46,12 +51,12 @@ public class UserStoryDefectService {
         UserStory userStory = parse(sentence);
 
         CriteriaCheckResult rolePartResult = wellFormedCriteriaChecker.checkRolePart(userStory);
-        if(!rolePartResult.isSatisfiesThisCriteria()){
+        if (!rolePartResult.isSatisfiesThisCriteria()) {
             return rolePartResult;
         }
 
-        CriteriaCheckResult meansPartResult =  wellFormedCriteriaChecker.checkGoalPart(userStory);
-        if(!meansPartResult.isSatisfiesThisCriteria()){
+        CriteriaCheckResult meansPartResult = wellFormedCriteriaChecker.checkGoalPart(userStory);
+        if (!meansPartResult.isSatisfiesThisCriteria()) {
             return meansPartResult;
         }
 
@@ -61,6 +66,10 @@ public class UserStoryDefectService {
                 .build();
     }
 
+    public CriteriaCheckResult checkAtomicCriteria(String sentence) {
+        UserStory userStory = parse(sentence);
+        return atomicCriteriaChecker.checkIsAtomic(userStory);
+    }
     public CriteriaCheckResult checkMinimalCriteria(String sentence) {
         CriteriaCheckResult extraNoteResult = minimalCriteriaChecker.checkIfThereExistExtraNote(sentence);
         if(!extraNoteResult.isSatisfiesThisCriteria()){

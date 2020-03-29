@@ -19,6 +19,8 @@ public class CriteriaCheckResult {
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+
     public static final class CriteriaCheckResultBuilder {
         private boolean satisfiesThisCriteria;
         private String errorMessage;
@@ -47,5 +49,4 @@ public class CriteriaCheckResult {
             return criteriaCheckResult;
         }
     }
-
 }

@@ -9,6 +9,8 @@ import zemberek.morphology.analysis.SingleAnalysis;
 
 import java.util.List;
 
+import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
+
 @Service
 public class WellFormedCriteriaChecker {
 
@@ -25,7 +27,7 @@ public class WellFormedCriteriaChecker {
 
         if ((!rolePart.contains("bir") && rolePart.split("\\s+").length < 2) ||
                 (rolePart.contains("bir") && rolePart.contains("olarak") && rolePart.split("\\s+").length == 2)) {
-            return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+            return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("A user story should contain a role part in format of \"Bir [persona] olarak\" or [persona] olarak\"")
                     .build();
@@ -43,12 +45,12 @@ public class WellFormedCriteriaChecker {
             }
         }
         if(verbExist){
-            return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+            return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("A user story's role part should not contain a verb")
                     .build();
         }
-        return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+        return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
                 .build();
@@ -64,12 +66,12 @@ public class WellFormedCriteriaChecker {
             }
         }
         if (!directObjectExist) {
-            return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+            return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("A user story's mean part should contain a direct object")
                     .build();
         }
-        return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
+        return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
                 .build();
