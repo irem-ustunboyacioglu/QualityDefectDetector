@@ -26,8 +26,12 @@ public class ZemberekProcessor {
         spellChecker = new TurkishSpellChecker(turkishMorphology);
     }
 
-    public List<String> checkSpell(String word) {
-        if (!spellChecker.check(word)) {
+    public boolean checkSpelling(String word) {
+        return  spellChecker.check(word);
+    }
+
+    public List<String> suggestionForSpelling(String word) {
+        if (!checkSpelling(word)) {
             return spellChecker.suggestForWord(word).stream().limit(5).collect(Collectors.toList());
         }
         return Collections.EMPTY_LIST;

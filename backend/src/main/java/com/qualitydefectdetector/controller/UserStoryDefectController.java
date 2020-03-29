@@ -1,6 +1,7 @@
 package com.qualitydefectdetector.controller;
 
 import com.qualitydefectdetector.model.CriteriaCheckResult;
+import com.qualitydefectdetector.model.Report;
 import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.service.UserStoryDefectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,19 @@ public class UserStoryDefectController {
         this.userStoryDefectService = userStoryDefectService;
     }
 
+    @GetMapping("/analyse")
+    public Report analyse(@RequestParam String sentence) {
+        return userStoryDefectService.analyseUserStory(sentence);
+    }
+
     @GetMapping("/parse-format")
     public UserStory detect(@RequestParam String sentence) {
         return userStoryDefectService.parse(sentence);
     }
 
     @GetMapping("/check-spelling")
-    public List<List<String>> checkSpells(@RequestParam String sentence) {
-        return userStoryDefectService.checkSpells(sentence);
+    public List<List<String>> suggestionForSpelling(@RequestParam String sentence) {
+        return userStoryDefectService.suggestionForSpelling(sentence);
     }
 
     @GetMapping("/well-formed")

@@ -40,7 +40,13 @@ public class UserStoryParser {
             return parseRoleGoalFormat(tokens,normalizedUserStory);
         }
         else {
-            return null;
+            return aUserStory()
+                    .role(null)
+                    .goal(null)
+                    .reason(null)
+                    .userStoryType(UNDEFINED)
+                    .userStorySentence(sentence)
+                    .build();
         }
     }
 
