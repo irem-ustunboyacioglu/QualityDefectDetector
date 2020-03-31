@@ -1,0 +1,19 @@
+.side-menu {
+  padding-left: 40px;
+  padding-top: 30px;
+
+  &__title {
+    margin: 0;
+    padding: 30px 0px;
+    font-size: 28px;
+    color: #404259;
+  }
+
+  &__option {
+    outline: 0;
+    padding: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid whitesmoke;
+    cursor: pointer;
+  }
+}

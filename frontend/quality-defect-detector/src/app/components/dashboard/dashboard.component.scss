@@ -1,0 +1,13 @@
+.dashboard {
+  height: 100%;
+
+  &__container {
+    height: 100%;
+  }
+
+  &__side-menu {
+    margin-left: -16px;
+    padding-left: 16px;
+    box-shadow: 0 0 2px 0 rgba(52, 58, 67, .1), 0 0 2px 0 rgba(52, 58, 67, .08), 1px 0 4px 0 rgba(52, 58, 67, .08);
+  }
+}
