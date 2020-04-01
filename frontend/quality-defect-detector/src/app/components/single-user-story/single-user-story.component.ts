@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formats, verbs } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-single-user-story',
@@ -9,14 +10,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SingleUserStoryComponent implements OnInit {
 
   formGroup: FormGroup;
-  formats = [1, 2, 3];
+  formats = formats;
+  verbs = verbs;
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.formGroup = this.formBuilder.group({
-      formatType: [1, Validators.required],
+      formatType: [this.formats[0], Validators.required],
       userStoryRolePart: ['', Validators.required],
       userStoryGoalPart: ['', Validators.required],
+      userStoryGoalPartVerb: [this.verbs[0], Validators.required],
       userStoryReasonPart: ['']
     });
   }
