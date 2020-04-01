@@ -1,29 +1,30 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
   <div class="single-user-story__format-container">
-    <label *ngFor="let format of formats ; let i = index" class="single-user-story__format"
+    <label *ngFor="let format of formats" class="single-user-story__format"
       [ngClass]="{'single-user-story__selected-format': formGroup.get('formatType').value === format}">
-      Format {{i+1}}
+      {{format}}
       <input type="radio" [value]="format" [formControlName]="'formatType'">
     </label>
   </div>
   <div class="single-user-story__container">
     <div class="single-user-story__inputs">
       <input type="text" readonly value="Bir" style="width:50px;">
-      <input type="text">
+      <input type="text" [formControlName]="'userStoryRolePart'">
       <input type="text" readonly value="olarak" style="width:100px;">
     </div>
-    <div class="single-user-story__inputs">
-      <input type="text">
+    <div class="single-user-story__inputs" *ngIf="formGroup.get('formatType').value === formats[0]">
+      <input type="text" [formControlName]="'userStoryReasonPart'">
       <input type="text" readonly value="için" style="width:70px;">
     </div>
     <div class="single-user-story__inputs">
-      <input type="text">
-      <select>
-        <option>istiyorum</option>
-        <option>istiyoruz</option>
-        <option>ihtiyacım var</option>
-        <option>ihtiyacımız var</option>
+      <input type="text" [formControlName]="'userStoryGoalPart'">
+      <select [formControlName]="'userStoryGoalPartVerb'">
+        <option *ngFor="let verb of verbs" [value]="verb">{{verb}}</option>
       </select>
+    </div>
+    <div class="single-user-story__inputs" *ngIf="formGroup.get('formatType').value === formats[1]">
+      <input type="text" readonly value="Böylece" style="width:100px;">
+      <input type="text" [formControlName]="'userStoryReasonPart'">
     </div>
     <button type="submit" class="single-user-story__button">Gönder</button>
   </div>
