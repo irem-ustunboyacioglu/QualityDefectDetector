@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {SingleUserStoryReportResponse} from 'src/app/shared/models/single-user-story-report.response';
-import {SingleUserStoryService} from '../../services/single-user-story.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { SingleUserStoryReportResponse } from 'src/app/shared/models/single-user-story-report.response';
+import { SingleUserStoryService } from '../../services/single-user-story.service';
 
 @Component({
   selector: 'app-listing-card',
@@ -9,17 +9,23 @@ import {SingleUserStoryService} from '../../services/single-user-story.service';
 })
 export class ListingCardComponent implements OnInit {
 
-  constructor(private service: SingleUserStoryService) {
-  }
-
   @Input()
   singleUserStoryReport: SingleUserStoryReportResponse;
+
+  @Output()
+  resetForm: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor(private service: SingleUserStoryService) {
+  }
 
   ngOnInit(): void {
   }
 
   onSubmitSuggestions() {
     this.service.suggestionForSpelling(this.singleUserStoryReport.userStory.userStorySentence)
-      .subscribe((response) => {console.log(response); });
+      .subscribe((response) => { console.log(response); });
+  }
+  reset() {
+    this.resetForm.emit();
   }
 }

@@ -6,7 +6,7 @@
       <input type="radio" [value]="format" [formControlName]="'formatType'">
     </label>
   </div>
-  <div class="single-user-story__container">
+  <div class="single-user-story__container" *ngIf="showInputs">
     <div class="single-user-story__inputs">
       <input type="text" readonly value="Bir" style="width:50px;">
       <input type="text" [formControlName]="'userStoryRolePart'">
@@ -29,6 +29,8 @@
     <button type="submit" class="single-user-story__button">Gönder</button>
   </div>
   <ng-container *ngIf="singleUserStoryReport$ | async as singleUserStoryReport">
-    <app-listing-card [singleUserStoryReport]="singleUserStoryReport"></app-listing-card>
+    <app-listing-card *ngIf="!showInputs" [singleUserStoryReport]="singleUserStoryReport"
+      (resetForm)="showOrHideInputs()">
+    </app-listing-card>
   </ng-container>
 </form>

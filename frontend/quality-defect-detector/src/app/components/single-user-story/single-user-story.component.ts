@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
-import {formats, verbs} from 'src/app/shared/constants';
-import {SingleUserStoryService} from 'src/app/services/single-user-story.service';
-import {Observable} from 'rxjs';
-import {SingleUserStoryReportResponse} from '../../shared/models/single-user-story-report.response';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { formats, verbs } from 'src/app/shared/constants';
+import { SingleUserStoryService } from 'src/app/services/single-user-story.service';
+import { Observable } from 'rxjs';
+import { SingleUserStoryReportResponse } from '../../shared/models/single-user-story-report.response';
 
 @Component({
   selector: 'app-single-user-story',
@@ -16,6 +16,7 @@ export class SingleUserStoryComponent implements OnInit {
   formats = formats;
   verbs = verbs;
   singleUserStoryReport$: Observable<SingleUserStoryReportResponse>;
+  showInputs = true;
 
   constructor(private formBuilder: FormBuilder, private service: SingleUserStoryService) {
   }
@@ -49,5 +50,12 @@ export class SingleUserStoryComponent implements OnInit {
         this.formGroup.get('userStoryGoalPart').value + ' ' + this.formGroup.get('userStoryGoalPartVerb').value;
     }
     this.singleUserStoryReport$ = this.service.analyseUserStory(userStory);
+    this.showOrHideInputs();
+  }
+  showOrHideInputs() {
+    this.formGroup.reset();
+    this.formGroup.get('formatType').setValue(this.formats[0]);
+    this.formGroup.get('userStoryGoalPartVerb').setValue(this.verbs[0]);
+    this.showInputs = !this.showInputs;
   }
 }
