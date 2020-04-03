@@ -1,0 +1,8 @@
+export enum CriteriaType {
+  WELL_FORMED = 'WELL FORMED',
+  ATOMIC = 'ATOMIC' ,
+  MINIMAL = 'MINIMAL',
+  FORMAT = 'FORMAT',
+  FULL_SENTENCE = 'FULL SENTENCE',
+  SPELLING = 'SPELLING'
+}

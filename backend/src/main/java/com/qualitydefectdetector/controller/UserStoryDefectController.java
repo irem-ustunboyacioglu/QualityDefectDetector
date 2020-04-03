@@ -5,6 +5,7 @@ import com.qualitydefectdetector.model.Report;
 import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.service.UserStoryDefectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ public class UserStoryDefectController {
         this.userStoryDefectService = userStoryDefectService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/analyse")
     public Report analyse(@RequestParam String sentence) {
         return userStoryDefectService.analyseUserStory(sentence);
@@ -33,6 +35,7 @@ public class UserStoryDefectController {
         return userStoryDefectService.parse(sentence);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/check-spelling")
     public List<List<String>> suggestionForSpelling(@RequestParam String sentence) {
         return userStoryDefectService.suggestionForSpelling(sentence);

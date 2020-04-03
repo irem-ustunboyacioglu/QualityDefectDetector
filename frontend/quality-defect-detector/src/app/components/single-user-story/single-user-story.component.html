@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" (ngSubmit)="submit()">
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="single-user-story__format-container">
     <label *ngFor="let format of formats" class="single-user-story__format"
       [ngClass]="{'single-user-story__selected-format': formGroup.get('formatType').value === format}">
@@ -28,4 +28,7 @@
     </div>
     <button type="submit" class="single-user-story__button">Gönder</button>
   </div>
+  <ng-container *ngIf="singleUserStoryReport$ | async as singleUserStoryReport">
+    <app-listing-card [singleUserStoryReport]="singleUserStoryReport"></app-listing-card>
+  </ng-container>
 </form>
