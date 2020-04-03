@@ -10,6 +10,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SingleUserStoryComponent } from './components/single-user-story/single-user-story.component';
 import { MultipleUserStoryComponent } from './components/multiple-user-story/multiple-user-story.component';
 import { ImportFileComponent } from './components/import-file/import-file.component';
+import { HttpClientModule } from '@angular/common/http';
+import {ListingCardComponent} from './components/listing-card/listing-card.component';
+
 
 @NgModule({
   declarations: [
@@ -19,13 +22,15 @@ import { ImportFileComponent } from './components/import-file/import-file.compon
     MainMenuComponent,
     SingleUserStoryComponent,
     MultipleUserStoryComponent,
-    ImportFileComponent
+    ImportFileComponent,
+    ListingCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

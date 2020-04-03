@@ -1,0 +1,44 @@
+<div class="user-story">
+  <p class="user-story__text">
+    <strong>Format:</strong>
+    <span style="color: #000000;">
+    {{singleUserStoryReport.userStory.userStoryType}}
+    </span>
+  </p>
+  <p>
+    <strong>Cümle:</strong>
+    <span style="color: #000000;">
+    {{singleUserStoryReport.userStory.userStorySentence}}
+       </span>
+  </p>
+  <p>
+    <strong>Rol Kısmı:</strong>
+    <span style="color: #000000;">
+    {{singleUserStoryReport.userStory.role}}
+     </span>
+  </p>
+  <p>
+    <strong>Fayda Kısmı:</strong>
+    <span style="color: #000000;">
+    {{singleUserStoryReport.userStory.reason}}
+     </span>
+  </p>
+  <p>
+    <strong>Amaç Kısmı:</strong>
+    <span style="color: #000000;">
+    {{singleUserStoryReport.userStory.goal}}
+     </span>
+  </p>
+</div>
+<div>
+  <p class="listing-card__title">
+    Kriterlerler:
+  </p>
+  <div class="listing-card" *ngFor="let criteria of singleUserStoryReport.criteriaCheckResults | keyvalue"
+       [ngClass]="{'success':criteria.value.satisfiesThisCriteria,'error':!criteria.value.satisfiesThisCriteria}">
+    &#9989;
+    &#10060; {{criteria.key }} --> {{criteria.value.errorMessage ? criteria.value.errorMessage : "This sentence satisfies " + criteria.key + " criteria."}}
+    <button (ngSubmit)="onSubmitSuggestions()" type="submit" class="listing-card__button">Önerileri Göster</button>
+  </div>
+</div>
+

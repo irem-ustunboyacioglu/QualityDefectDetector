@@ -89,6 +89,7 @@ public class UserStoryDefectService {
         List<String> words = userStoryParser.parseSentence(sentence);
         return words.stream()
                 .map(zemberekProcessor::suggestionForSpelling)
+                .filter(list -> !list.isEmpty())
                 .collect(Collectors.toList());
     }
 
