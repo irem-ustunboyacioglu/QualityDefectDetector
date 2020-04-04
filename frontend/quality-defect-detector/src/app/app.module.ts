@@ -11,7 +11,8 @@ import { SingleUserStoryComponent } from './components/single-user-story/single-
 import { MultipleUserStoryComponent } from './components/multiple-user-story/multiple-user-story.component';
 import { ImportFileComponent } from './components/import-file/import-file.component';
 import { HttpClientModule } from '@angular/common/http';
-import {ListingCardComponent} from './components/listing-card/listing-card.component';
+import { ListingCardComponent } from './components/listing-card/listing-card.component';
+import { RemoveUnderscorePipe } from './pipes/remove-underscore.pipe';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {ListingCardComponent} from './components/listing-card/listing-card.compo
     SingleUserStoryComponent,
     MultipleUserStoryComponent,
     ImportFileComponent,
-    ListingCardComponent
+    ListingCardComponent,
+    RemoveUnderscorePipe
   ],
   imports: [
     BrowserModule,
