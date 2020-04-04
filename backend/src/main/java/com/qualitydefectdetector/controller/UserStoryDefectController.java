@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user-story-defects")
@@ -37,7 +38,7 @@ public class UserStoryDefectController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/check-spelling")
-    public List<List<String>> suggestionForSpelling(@RequestParam String sentence) {
+    public Map<String, List<String>> suggestionForSpelling(@RequestParam String sentence) {
         return userStoryDefectService.suggestionForSpelling(sentence);
     }
 

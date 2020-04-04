@@ -12,11 +12,14 @@ import com.qualitydefectdetector.parser.UserStoryParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.qualitydefectdetector.enums.UserStoryType.UNDEFINED;
 import static com.qualitydefectdetector.model.Report.ReportBuilder.aReport;
+import static java.util.stream.Collectors.toMap;
 
 @Service
 public class UserStoryDefectService {
@@ -85,12 +88,13 @@ public class UserStoryDefectService {
                 .build();
     }
 
-    public List<List<String>> suggestionForSpelling(String sentence) {
+    public Map<String, List<String>> suggestionForSpelling(String sentence) {
         List<String> words = userStoryParser.parseSentence(sentence);
         return words.stream()
-                .map(zemberekProcessor::suggestionForSpelling)
-                .filter(list -> !list.isEmpty())
-                .collect(Collectors.toList());
+                .collect(toMap(word -> word, zemberekProcessor::suggestionForSpelling))
+                .entrySet().stream()
+                .filter(map -> !(map.getValue()).isEmpty())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public UserStory parse(String sentence) {
