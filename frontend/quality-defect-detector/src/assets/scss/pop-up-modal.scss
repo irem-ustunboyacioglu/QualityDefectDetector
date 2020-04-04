@@ -1,0 +1,46 @@
+.pop-up-modals {
+  .modal-dialog {
+    margin: 100px auto 0px;
+
+    .modal-content {
+      border: none;
+    }
+  }
+
+  &__header {
+    position: relative;
+    height: 60px;
+    text-align: center;
+    border-bottom: 2px solid whitesmoke;
+    padding: 12px 0px;
+  }
+
+  &__title {
+    font-size: 16px;
+    color: #404259;
+    margin: 0;
+  }
+
+  &__close-button {
+    outline: 0;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 16px;
+  }
+
+  &__suggestion_container {
+    padding: 5px 15px;
+  }
+
+  strong {
+    font-size: 15px;
+    color: #404259;
+  }
+
+  &__text {
+    font-size: 14px;
+    color: #6E7081;
+  }
+}

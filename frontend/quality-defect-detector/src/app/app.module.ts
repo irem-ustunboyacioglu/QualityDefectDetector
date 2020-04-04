@@ -13,6 +13,7 @@ import { ImportFileComponent } from './components/import-file/import-file.compon
 import { HttpClientModule } from '@angular/common/http';
 import { ListingCardComponent } from './components/listing-card/listing-card.component';
 import { RemoveUnderscorePipe } from './pipes/remove-underscore.pipe';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { RemoveUnderscorePipe } from './pipes/remove-underscore.pipe';
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgbModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]
