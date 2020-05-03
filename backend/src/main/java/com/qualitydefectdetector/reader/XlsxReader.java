@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 public class XlsxReader {
 
+    private XlsxReader() {
+    }
+
     public static List<String> readFile(MultipartFile file) {
         try {
             Workbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -37,9 +40,11 @@ public class XlsxReader {
                 Row currentRow = workSheet.getRow(i);
                 userStories.add(currentRow.getCell(columnOfUserStories).getStringCellValue());
             }
+
             return userStories.stream()
                     .filter(userStory -> !userStory.equals(""))
                     .collect(Collectors.toList());
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

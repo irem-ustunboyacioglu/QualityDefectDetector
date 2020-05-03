@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 
 public class TxtReader {
 
+    private TxtReader() {
+    }
+
     public static List<String> readFile(MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
             byte[] bytes = file.getBytes();
