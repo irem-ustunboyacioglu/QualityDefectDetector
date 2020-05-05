@@ -4,12 +4,12 @@ import com.qualitydefectdetector.enums.CriteriaType;
 
 import java.util.HashMap;
 
-public class Report {
+public class SingleUserStoryReport {
 
     private HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults;
     private UserStory userStory;
 
-    public Report(HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults, UserStory userStory) {
+    public SingleUserStoryReport(HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults, UserStory userStory) {
         this.criteriaCheckResults = criteriaCheckResults;
         this.userStory = userStory;
     }
@@ -30,29 +30,29 @@ public class Report {
         this.userStory = userStory;
     }
 
-    public static final class ReportBuilder {
+    public static final class SingleUserStoryReportBuilder {
         private HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults;
         private UserStory userStory;
 
-        private ReportBuilder() {
+        private SingleUserStoryReportBuilder() {
         }
 
-        public static ReportBuilder aReport() {
-            return new ReportBuilder();
+        public static SingleUserStoryReportBuilder aSingleUserStoryReport() {
+            return new SingleUserStoryReportBuilder();
         }
 
-        public ReportBuilder criteriaCheckResults() {
+        public SingleUserStoryReportBuilder criteriaCheckResults() {
             this.criteriaCheckResults = new HashMap<>();
             return this;
         }
 
-        public ReportBuilder userStory(UserStory userStory) {
+        public SingleUserStoryReportBuilder userStory(UserStory userStory) {
             this.userStory = userStory;
             return this;
         }
 
-        public Report build() {
-            return new Report(criteriaCheckResults, userStory);
+        public SingleUserStoryReport build() {
+            return new SingleUserStoryReport(criteriaCheckResults, userStory);
         }
     }
 }
