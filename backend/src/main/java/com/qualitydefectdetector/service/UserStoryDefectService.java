@@ -12,7 +12,6 @@ import com.qualitydefectdetector.parser.UserStoryParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,6 +40,11 @@ public class UserStoryDefectService {
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
         this.atomicCriteriaChecker = atomicCriteriaChecker;
         this.minimalCriteriaChecker = minimalCriteriaChecker;
+    }
+
+    public List<Report> analyseMultipleUserStories(List<String> sentences) {
+        return sentences.stream()
+                .map(this::analyseUserStory).collect(Collectors.toList());
     }
 
     public Report analyseUserStory(String sentence) {
