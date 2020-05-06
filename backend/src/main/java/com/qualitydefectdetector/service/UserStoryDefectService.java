@@ -3,6 +3,7 @@ package com.qualitydefectdetector.service;
 import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniformCriteriaChecker;
+import com.qualitydefectdetector.criteriaChecker.UniqueCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
 import com.qualitydefectdetector.enums.CriteriaType;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
@@ -32,6 +33,7 @@ public class UserStoryDefectService {
     private final AtomicCriteriaChecker atomicCriteriaChecker;
     private final MinimalCriteriaChecker minimalCriteriaChecker;
     private final UniformCriteriaChecker uniformCriteriaChecker;
+    private final UniqueCriteriaChecker uniqueCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
@@ -39,32 +41,36 @@ public class UserStoryDefectService {
                                   WellFormedCriteriaChecker wellFormedCriteriaChecker,
                                   AtomicCriteriaChecker atomicCriteriaChecker,
                                   MinimalCriteriaChecker minimalCriteriaChecker,
-                                  UniformCriteriaChecker uniformCriteriaChecker) {
+                                  UniformCriteriaChecker uniformCriteriaChecker,
+                                  UniqueCriteriaChecker uniqueCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
         this.atomicCriteriaChecker = atomicCriteriaChecker;
         this.minimalCriteriaChecker = minimalCriteriaChecker;
         this.uniformCriteriaChecker = uniformCriteriaChecker;
+        this.uniqueCriteriaChecker = uniqueCriteriaChecker;
     }
 
     public SetOfUserStoryReport analyseMultipleUserStories(List<String> sentences) {
         SetOfUserStoryReport setOfUserStoryReport = checkCriteriaForSet(sentences);
-        for(String sentence: sentences){
+        for (String sentence : sentences) {
             setOfUserStoryReport.getSingleUserStoryReportList()
                     .add(analyseUserStory(sentence));
         }
         return setOfUserStoryReport;
     }
 
-    public SetOfUserStoryReport checkCriteriaForSet(List<String> sentences){
+    public SetOfUserStoryReport checkCriteriaForSet(List<String> sentences) {
         SetOfUserStoryReport setOfUserStoryReport = aSetOfUserStoryReport()
                 .setCriteriaResults()
                 .singleUserStoryReportList()
                 .build();
 
         setOfUserStoryReport.getSetCriteriaResults()
-                .put(CriteriaType.UNIFORM,uniformCriteriaChecker.checkUserStorySetIsUniform(sentences));
+                .put(CriteriaType.UNIFORM, uniformCriteriaChecker.checkUserStorySetIsUniform(sentences));
+        setOfUserStoryReport.getSetCriteriaResults()
+                .put(CriteriaType.UNIQUE, uniqueCriteriaChecker.checkUserStorySetIsUnique(sentences));
 
         return setOfUserStoryReport;
     }

@@ -7,5 +7,6 @@ public enum CriteriaType {
     FORMAT,
     FULL_SENTENCE,
     SPELLING,
-    UNIFORM
+    UNIFORM,
+    UNIQUE
 }
