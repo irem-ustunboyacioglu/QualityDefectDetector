@@ -6,5 +6,6 @@ public enum CriteriaType {
     MINIMAL,
     FORMAT,
     FULL_SENTENCE,
-    SPELLING
+    SPELLING,
+    UNIFORM
 }

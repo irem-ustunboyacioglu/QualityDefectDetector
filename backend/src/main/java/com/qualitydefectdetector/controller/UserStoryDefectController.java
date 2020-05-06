@@ -1,7 +1,8 @@
 package com.qualitydefectdetector.controller;
 
 import com.qualitydefectdetector.model.CriteriaCheckResult;
-import com.qualitydefectdetector.model.Report;
+import com.qualitydefectdetector.model.SetOfUserStoryReport;
+import com.qualitydefectdetector.model.SingleUserStoryReport;
 import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.reader.CsvReader;
 import com.qualitydefectdetector.reader.TxtReader;
@@ -34,7 +35,7 @@ public class UserStoryDefectController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/analyse")
-    public Report analyse(@RequestParam String sentence) {
+    public SingleUserStoryReport analyse(@RequestParam String sentence) {
         return userStoryDefectService.analyseUserStory(sentence);
     }
 
@@ -66,7 +67,7 @@ public class UserStoryDefectController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/analyse-file")
-    public List<Report> analyseFile(@RequestParam("file") MultipartFile uploadingFile) throws IOException {
+    public SetOfUserStoryReport analyseFile(@RequestParam("file") MultipartFile uploadingFile) throws IOException {
         String fileName = uploadingFile.getOriginalFilename();
         if(Pattern.matches(".*\\.txt",fileName)){
             List<String> userStories = TxtReader.readFile(uploadingFile);

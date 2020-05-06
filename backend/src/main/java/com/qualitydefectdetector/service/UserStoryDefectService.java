@@ -2,10 +2,12 @@ package com.qualitydefectdetector.service;
 
 import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
+import com.qualitydefectdetector.criteriaChecker.UniformCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
 import com.qualitydefectdetector.enums.CriteriaType;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
-import com.qualitydefectdetector.model.Report;
+import com.qualitydefectdetector.model.SetOfUserStoryReport;
+import com.qualitydefectdetector.model.SingleUserStoryReport;
 import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import com.qualitydefectdetector.parser.UserStoryParser;
@@ -17,7 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.qualitydefectdetector.enums.UserStoryType.UNDEFINED;
-import static com.qualitydefectdetector.model.Report.ReportBuilder.aReport;
+import static com.qualitydefectdetector.model.SetOfUserStoryReport.SetOfUserStoryReportBuilder.aSetOfUserStoryReport;
+import static com.qualitydefectdetector.model.SingleUserStoryReport.SingleUserStoryReportBuilder.aSingleUserStoryReport;
 import static java.util.stream.Collectors.toMap;
 
 @Service
@@ -28,48 +31,67 @@ public class UserStoryDefectService {
     private final WellFormedCriteriaChecker wellFormedCriteriaChecker;
     private final AtomicCriteriaChecker atomicCriteriaChecker;
     private final MinimalCriteriaChecker minimalCriteriaChecker;
+    private final UniformCriteriaChecker uniformCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
                                   ZemberekProcessor zemberekProcessor,
                                   WellFormedCriteriaChecker wellFormedCriteriaChecker,
                                   AtomicCriteriaChecker atomicCriteriaChecker,
-                                  MinimalCriteriaChecker minimalCriteriaChecker) {
+                                  MinimalCriteriaChecker minimalCriteriaChecker,
+                                  UniformCriteriaChecker uniformCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
         this.atomicCriteriaChecker = atomicCriteriaChecker;
         this.minimalCriteriaChecker = minimalCriteriaChecker;
+        this.uniformCriteriaChecker = uniformCriteriaChecker;
     }
 
-    public List<Report> analyseMultipleUserStories(List<String> sentences) {
-        return sentences.stream()
-                .map(this::analyseUserStory).collect(Collectors.toList());
+    public SetOfUserStoryReport analyseMultipleUserStories(List<String> sentences) {
+        SetOfUserStoryReport setOfUserStoryReport = checkCriteriaForSet(sentences);
+        for(String sentence: sentences){
+            setOfUserStoryReport.getSingleUserStoryReportList()
+                    .add(analyseUserStory(sentence));
+        }
+        return setOfUserStoryReport;
     }
 
-    public Report analyseUserStory(String sentence) {
-        Report report = aReport()
+    public SetOfUserStoryReport checkCriteriaForSet(List<String> sentences){
+        SetOfUserStoryReport setOfUserStoryReport = aSetOfUserStoryReport()
+                .setCriteriaResults()
+                .singleUserStoryReportList()
+                .build();
+
+        setOfUserStoryReport.getSetCriteriaResults()
+                .put(CriteriaType.UNIFORM,uniformCriteriaChecker.checkUserStorySetIsUniform(sentences));
+
+        return setOfUserStoryReport;
+    }
+
+    public SingleUserStoryReport analyseUserStory(String sentence) {
+        SingleUserStoryReport singleUserStoryReport = aSingleUserStoryReport()
                 .criteriaCheckResults()
                 .build();
 
         CriteriaCheckResult wellFormedResult = checkWellFormedCriteria(sentence);
-        report.getCriteriaCheckResults().put(CriteriaType.WELL_FORMED, wellFormedResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.WELL_FORMED, wellFormedResult);
 
         CriteriaCheckResult atomicResult = checkAtomicCriteria(sentence);
-        report.getCriteriaCheckResults().put(CriteriaType.ATOMIC, atomicResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.ATOMIC, atomicResult);
 
         CriteriaCheckResult minimalResult = checkMinimalCriteria(sentence);
-        report.getCriteriaCheckResults().put(CriteriaType.MINIMAL, minimalResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.MINIMAL, minimalResult);
 
         CriteriaCheckResult fullSentenceResult = checkFullSentenceCriteria(sentence);
-        report.getCriteriaCheckResults().put(CriteriaType.FULL_SENTENCE, fullSentenceResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.FULL_SENTENCE, fullSentenceResult);
 
         CriteriaCheckResult spellingResult = checkSpelling(sentence);
-        report.getCriteriaCheckResults().put(CriteriaType.SPELLING, spellingResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.SPELLING, spellingResult);
 
-        report.setUserStory(parse(sentence));
+        singleUserStoryReport.setUserStory(parse(sentence));
 
-        return report;
+        return singleUserStoryReport;
     }
 
     public CriteriaCheckResult checkSpelling(String sentence) {
