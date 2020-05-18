@@ -26,7 +26,7 @@
       <input type="text" readonly value="Böylece" style="width:100px;">
       <input type="text" [formControlName]="'userStoryReasonPart'">
     </div>
-    <button type="submit" class="single-user-story__button">Gönder</button>
+    <button type="submit" class="button single-user-story__button">Gönder</button>
   </div>
   <ng-container *ngIf="singleUserStoryReport$ | async as singleUserStoryReport">
     <app-listing-card *ngIf="!showInputs" [singleUserStoryReport]="singleUserStoryReport"

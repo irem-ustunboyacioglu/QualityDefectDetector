@@ -1,5 +1,6 @@
 @import '../assets/scss/reset.scss';
 @import '../assets/scss/pop-up-modal.scss';
+@import '../assets/scss/button.scss';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
@@ -13,4 +14,6 @@
 @import '~bootstrap/scss/utilities/text';
 @import '~bootstrap/scss/grid';
 @import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/custom-forms';
+@import '~bootstrap/scss/bootstrap';
 @import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';

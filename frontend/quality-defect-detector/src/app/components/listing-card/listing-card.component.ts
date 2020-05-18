@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { SingleUserStoryReportResponse } from 'src/app/shared/models/single-user-story-report.response';
-import { SingleUserStoryService } from '../../services/single-user-story.service';
+import { UserStoryService } from '../../services/user-story.service';
 import { Observable } from 'rxjs';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -22,14 +22,14 @@ export class ListingCardComponent implements OnInit {
   suggestions$: Observable<Map<string, Array<string>>>;
   modalRef: NgbModalRef;
 
-  constructor(private singleUserStoryService: SingleUserStoryService, private modalService: NgbModal) {
+  constructor(private userStoryService: UserStoryService, private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
   }
 
   showSuggestions() {
-    this.suggestions$ = this.singleUserStoryService.suggestionForSpelling(this.singleUserStoryReport.userStory.userStorySentence);
+    this.suggestions$ = this.userStoryService.suggestionForSpelling(this.singleUserStoryReport.userStory.userStorySentence);
     setTimeout(() => {
       this.modalRef = this.modalService.open(this.popUp, {
         backdrop: 'static',
