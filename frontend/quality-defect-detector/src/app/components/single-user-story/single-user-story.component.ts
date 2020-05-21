@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { formats, verbs } from 'src/app/shared/constants';
-import { SingleUserStoryService } from 'src/app/services/single-user-story.service';
+import { UserStoryService } from 'src/app/services/user-story.service';
 import { Observable } from 'rxjs';
 import { SingleUserStoryReportResponse } from '../../shared/models/single-user-story-report.response';
 
@@ -18,7 +18,7 @@ export class SingleUserStoryComponent implements OnInit {
   singleUserStoryReport$: Observable<SingleUserStoryReportResponse>;
   showInputs = true;
 
-  constructor(private formBuilder: FormBuilder, private service: SingleUserStoryService) {
+  constructor(private formBuilder: FormBuilder, private service: UserStoryService) {
   }
 
   ngOnInit() {

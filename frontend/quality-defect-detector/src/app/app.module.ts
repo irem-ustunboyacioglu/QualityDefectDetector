@@ -6,14 +6,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SingleUserStoryComponent } from './components/single-user-story/single-user-story.component';
 import { MultipleUserStoryComponent } from './components/multiple-user-story/multiple-user-story.component';
 import { ImportFileComponent } from './components/import-file/import-file.component';
 import { HttpClientModule } from '@angular/common/http';
-import { ListingCardComponent } from './components/listing-card/listing-card.component';
-import { RemoveUnderscorePipe } from './pipes/remove-underscore.pipe';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { SingleUserStoryModule } from './components/single-user-story/single-user-story.module';
 
 
 @NgModule({
@@ -22,19 +18,15 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     DashboardComponent,
     SideMenuComponent,
     MainMenuComponent,
-    SingleUserStoryComponent,
     MultipleUserStoryComponent,
     ImportFileComponent,
-    ListingCardComponent,
-    RemoveUnderscorePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    ReactiveFormsModule,
     HttpClientModule,
-    NgbModalModule
+    SingleUserStoryModule
   ],
   providers: [],
   bootstrap: [AppComponent]
