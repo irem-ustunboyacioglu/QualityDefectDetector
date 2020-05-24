@@ -49,7 +49,7 @@ export class ImportFileComponent implements OnInit {
       singleUserStoryReportList.forEach(userStoryRow => {
         const { userStory, criteriaCheckResults } = userStoryRow;
         Object.keys(criteriaCheckResults).forEach(key => {
-          csvString += `${key},Tek,${userStory.userStorySentence},${criteriaCheckResults[key].satisfiesThisCriteria ? 'Geçti' : 'Geçemedi'}, ${criteriaCheckResults[key].errorMessage ? setCriteriaResults[key].errorMessage : 'Yok'}\r\n`;
+          csvString += `${key},Tek,${userStory.userStorySentence},${criteriaCheckResults[key].satisfiesThisCriteria ? 'Geçti' : 'Geçemedi'}, ${criteriaCheckResults[key].errorMessage ? criteriaCheckResults[key].errorMessage : 'Yok'}\r\n`;
         });
       });
       var blob = new Blob([csvString], { type: `text/${this.importedFile.name.substring(this.importedFile.name.indexOf('.') + 1)}` })
@@ -71,7 +71,7 @@ export class ImportFileComponent implements OnInit {
         const { userStory, criteriaCheckResults } = userStoryRow;
         Object.keys(criteriaCheckResults).forEach(key => {
           xlsxArray.push({
-            'Kriter': key, 'Tek/Set': 'Set', 'Kullanıcı Hikayesi': userStory.userStorySentence,
+            'Kriter': key, 'Tek/Set': 'Tek', 'Kullanıcı Hikayesi': userStory.userStorySentence,
             'Statüs': criteriaCheckResults[key].satisfiesThisCriteria ? 'Geçti' : 'Geçemedi',
             'Hata Mesajı': criteriaCheckResults[key].errorMessage ? criteriaCheckResults[key].errorMessage : 'Yok'
           });
