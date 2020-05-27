@@ -2,6 +2,7 @@ package com.qualitydefectdetector.service;
 
 import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
+import com.qualitydefectdetector.criteriaChecker.ProblemOrientedCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniformCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniqueCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
@@ -34,6 +35,7 @@ public class UserStoryDefectService {
     private final MinimalCriteriaChecker minimalCriteriaChecker;
     private final UniformCriteriaChecker uniformCriteriaChecker;
     private final UniqueCriteriaChecker uniqueCriteriaChecker;
+    private final ProblemOrientedCriteriaChecker problemOrientedCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
@@ -42,7 +44,8 @@ public class UserStoryDefectService {
                                   AtomicCriteriaChecker atomicCriteriaChecker,
                                   MinimalCriteriaChecker minimalCriteriaChecker,
                                   UniformCriteriaChecker uniformCriteriaChecker,
-                                  UniqueCriteriaChecker uniqueCriteriaChecker) {
+                                  UniqueCriteriaChecker uniqueCriteriaChecker,
+                                  ProblemOrientedCriteriaChecker problemOrientedCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
@@ -50,6 +53,7 @@ public class UserStoryDefectService {
         this.minimalCriteriaChecker = minimalCriteriaChecker;
         this.uniformCriteriaChecker = uniformCriteriaChecker;
         this.uniqueCriteriaChecker = uniqueCriteriaChecker;
+        this.problemOrientedCriteriaChecker = problemOrientedCriteriaChecker;
     }
 
     public SetOfUserStoryReport analyseMultipleUserStories(List<String> sentences) {
@@ -91,6 +95,9 @@ public class UserStoryDefectService {
 
         CriteriaCheckResult fullSentenceResult = checkFullSentenceCriteria(sentence);
         singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.FULL_SENTENCE, fullSentenceResult);
+
+        CriteriaCheckResult problemOrientedResult = checkProblemOrientedCriteria(sentence);
+        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.PROBLEM_ORIENTED, problemOrientedResult);
 
         CriteriaCheckResult spellingResult = checkSpelling(sentence);
         singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.SPELLING, spellingResult);
@@ -187,6 +194,11 @@ public class UserStoryDefectService {
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
                 .build();
+    }
+
+    public CriteriaCheckResult checkProblemOrientedCriteria(String sentence) {
+        UserStory userStory = parse(sentence);
+        return problemOrientedCriteriaChecker.checkIsProblemOriented(userStory);
     }
 
     private CriteriaCheckResult notCheckedBecauseOfFormat() {

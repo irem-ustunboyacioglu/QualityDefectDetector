@@ -8,5 +8,6 @@ public enum CriteriaType {
     FULL_SENTENCE,
     SPELLING,
     UNIFORM,
-    UNIQUE
+    UNIQUE,
+    PROBLEM_ORIENTED,
 }
