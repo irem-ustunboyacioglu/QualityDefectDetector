@@ -6,7 +6,6 @@ import com.qualitydefectdetector.criteriaChecker.ProblemOrientedCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniformCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniqueCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.WellFormedCriteriaChecker;
-import com.qualitydefectdetector.enums.CriteriaType;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
 import com.qualitydefectdetector.model.SetOfUserStoryReport;
 import com.qualitydefectdetector.model.SingleUserStoryReport;
@@ -20,6 +19,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.qualitydefectdetector.enums.CriteriaType.ATOMIC;
+import static com.qualitydefectdetector.enums.CriteriaType.FULL_SENTENCE;
+import static com.qualitydefectdetector.enums.CriteriaType.MINIMAL;
+import static com.qualitydefectdetector.enums.CriteriaType.PROBLEM_ORIENTED;
+import static com.qualitydefectdetector.enums.CriteriaType.SPELLING;
+import static com.qualitydefectdetector.enums.CriteriaType.UNIFORM;
+import static com.qualitydefectdetector.enums.CriteriaType.UNIQUE;
+import static com.qualitydefectdetector.enums.CriteriaType.WELL_FORMED;
 import static com.qualitydefectdetector.enums.UserStoryType.UNDEFINED;
 import static com.qualitydefectdetector.model.SetOfUserStoryReport.SetOfUserStoryReportBuilder.aSetOfUserStoryReport;
 import static com.qualitydefectdetector.model.SingleUserStoryReport.SingleUserStoryReportBuilder.aSingleUserStoryReport;
@@ -72,9 +79,9 @@ public class UserStoryDefectService {
                 .build();
 
         setOfUserStoryReport.getSetCriteriaResults()
-                .put(CriteriaType.UNIFORM, uniformCriteriaChecker.checkUserStorySetIsUniform(sentences));
+                .put(UNIFORM.getDisplayName(), uniformCriteriaChecker.checkUserStorySetIsUniform(sentences));
         setOfUserStoryReport.getSetCriteriaResults()
-                .put(CriteriaType.UNIQUE, uniqueCriteriaChecker.checkUserStorySetIsUnique(sentences));
+                .put(UNIQUE.getDisplayName(), uniqueCriteriaChecker.checkUserStorySetIsUnique(sentences));
 
         return setOfUserStoryReport;
     }
@@ -85,22 +92,22 @@ public class UserStoryDefectService {
                 .build();
 
         CriteriaCheckResult wellFormedResult = checkWellFormedCriteria(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.WELL_FORMED, wellFormedResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(WELL_FORMED.getDisplayName(), wellFormedResult);
 
         CriteriaCheckResult atomicResult = checkAtomicCriteria(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.ATOMIC, atomicResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(ATOMIC.getDisplayName(), atomicResult);
 
         CriteriaCheckResult minimalResult = checkMinimalCriteria(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.MINIMAL, minimalResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(MINIMAL.getDisplayName(), minimalResult);
 
         CriteriaCheckResult fullSentenceResult = checkFullSentenceCriteria(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.FULL_SENTENCE, fullSentenceResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(FULL_SENTENCE.getDisplayName(), fullSentenceResult);
 
         CriteriaCheckResult problemOrientedResult = checkProblemOrientedCriteria(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.PROBLEM_ORIENTED, problemOrientedResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(PROBLEM_ORIENTED.getDisplayName(), problemOrientedResult);
 
         CriteriaCheckResult spellingResult = checkSpelling(sentence);
-        singleUserStoryReport.getCriteriaCheckResults().put(CriteriaType.SPELLING, spellingResult);
+        singleUserStoryReport.getCriteriaCheckResults().put(SPELLING.getDisplayName(), spellingResult);
 
         singleUserStoryReport.setUserStory(parse(sentence));
 
@@ -123,7 +130,7 @@ public class UserStoryDefectService {
         }
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(false)
-                .errorMessage("This user story has " + numOfWrongSpelledWords + " word(s) wrongly spelled!")
+                .errorMessage("Bu kullanıcı hikayesinde " + numOfWrongSpelledWords + " kelime yanlış yazılmış!")
                 .build();
     }
 
@@ -143,7 +150,7 @@ public class UserStoryDefectService {
     public CriteriaCheckResult checkWellFormedCriteria(String sentence) {
         UserStory userStory = parse(sentence);
 
-        if (userStory.getUserStoryType().equals(UNDEFINED)) {
+        if (userStory.getUserStoryType().equals(UNDEFINED.getDisplayName())) {
             return notCheckedBecauseOfFormat();
         }
 
@@ -166,7 +173,7 @@ public class UserStoryDefectService {
     public CriteriaCheckResult checkAtomicCriteria(String sentence) {
         UserStory userStory = parse(sentence);
 
-        if (userStory.getUserStoryType().equals(UNDEFINED)) {
+        if (userStory.getUserStoryType().equals(UNDEFINED.getDisplayName())) {
             return notCheckedBecauseOfFormat();
         }
         return atomicCriteriaChecker.checkIsAtomic(userStory);
@@ -204,7 +211,7 @@ public class UserStoryDefectService {
     private CriteriaCheckResult notCheckedBecauseOfFormat() {
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(false)
-                .errorMessage("This criteria has not been checked because of format error!")
+                .errorMessage("Format hatası nedeniyle bu kriter denetlenmedi.")
                 .build();
     }
 }

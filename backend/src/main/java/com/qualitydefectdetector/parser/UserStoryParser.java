@@ -11,8 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.qualitydefectdetector.enums.UserStoryType.*;
-import static com.qualitydefectdetector.model.UserStory.UserStoryBuilder.aUserStory;
+import static com.qualitydefectdetector.enums.UserStoryType.ROLE_GOAL;
+import static com.qualitydefectdetector.enums.UserStoryType.ROLE_GOAL_REASON;
+import static com.qualitydefectdetector.enums.UserStoryType.ROLE_REASON_GOAL;
+import static com.qualitydefectdetector.enums.UserStoryType.UNDEFINED;
+import static com.qualitydefectdetector.model.UserStory.UserStoryBuilder.anUserStory;
 
 @Service
 public class UserStoryParser {
@@ -34,17 +37,16 @@ public class UserStoryParser {
 
         if (Pattern.matches(ROLE_GOAL_REASON.getFormatRegex(), normalizedUserStory)) {
             return parseRoleGoleReasonFormat(tokens, normalizedUserStory);
-        }else if(Pattern.matches(ROLE_REASON_GOAL.getFormatRegex(),normalizedUserStory)){
-            return parseRoleReasonGoalFormat(tokens,normalizedUserStory);
-        }else if(Pattern.matches(ROLE_GOAL.getFormatRegex(),normalizedUserStory)){
-            return parseRoleGoalFormat(tokens,normalizedUserStory);
-        }
-        else {
-            return aUserStory()
+        } else if (Pattern.matches(ROLE_REASON_GOAL.getFormatRegex(), normalizedUserStory)) {
+            return parseRoleReasonGoalFormat(tokens, normalizedUserStory);
+        } else if (Pattern.matches(ROLE_GOAL.getFormatRegex(), normalizedUserStory)) {
+            return parseRoleGoalFormat(tokens, normalizedUserStory);
+        } else {
+            return anUserStory()
                     .role(null)
                     .goal(null)
                     .reason(null)
-                    .userStoryType(UNDEFINED)
+                    .userStoryType(UNDEFINED.getDisplayName())
                     .userStorySentence(sentence)
                     .build();
         }
@@ -54,34 +56,35 @@ public class UserStoryParser {
         String rolePart = userStory.substring(0, parseRole(tokens));
         String goalPart = userStory.substring(parseRole(tokens) + 1, parseGoal(tokens) + 1);
         String reasonPart = userStory.substring(parseGoal(tokens) + 2);
-        return aUserStory()
+        return anUserStory()
                 .role(rolePart)
                 .goal(goalPart)
                 .reason(reasonPart)
-                .userStoryType(ROLE_GOAL_REASON)
-                .userStorySentence(userStory)
-                .build();
-    }
-    private UserStory parseRoleReasonGoalFormat(List<Token> tokens, String userStory){
-        String rolePart = userStory.substring(0,parseRole(tokens));
-        String reasonPart = userStory.substring(rolePart.length() + 1, parseReason(tokens,2) + 1);
-        String goalPart = userStory.substring(parseReason(tokens,2) + 2);
-        return aUserStory()
-                .role(rolePart)
-                .reason(reasonPart)
-                .goal(goalPart)
-                .userStoryType(ROLE_REASON_GOAL)
+                .userStoryType(ROLE_GOAL_REASON.getDisplayName())
                 .userStorySentence(userStory)
                 .build();
     }
 
-    private UserStory parseRoleGoalFormat(List<Token> tokens, String userStory){
-        String rolePart = userStory.substring(0,parseRole(tokens));
+    private UserStory parseRoleReasonGoalFormat(List<Token> tokens, String userStory) {
+        String rolePart = userStory.substring(0, parseRole(tokens));
+        String reasonPart = userStory.substring(rolePart.length() + 1, parseReason(tokens, 2) + 1);
+        String goalPart = userStory.substring(parseReason(tokens, 2) + 2);
+        return anUserStory()
+                .role(rolePart)
+                .reason(reasonPart)
+                .goal(goalPart)
+                .userStoryType(ROLE_REASON_GOAL.getDisplayName())
+                .userStorySentence(userStory)
+                .build();
+    }
+
+    private UserStory parseRoleGoalFormat(List<Token> tokens, String userStory) {
+        String rolePart = userStory.substring(0, parseRole(tokens));
         String goalPart = userStory.substring(parseRole(tokens) + 1);
-        return aUserStory()
+        return anUserStory()
                 .role(rolePart)
                 .goal(goalPart)
-                .userStoryType(ROLE_GOAL)
+                .userStoryType(ROLE_GOAL.getDisplayName())
                 .userStorySentence(userStory)
                 .build();
     }
@@ -108,20 +111,21 @@ public class UserStoryParser {
         }
         return -1;
     }
-    public int parseReason(List<Token> tokens, int formatType){
+
+    public int parseReason(List<Token> tokens, int formatType) {
         String keyword = "";
-        switch (formatType){
-            case 1:{
+        switch (formatType) {
+            case 1: {
                 keyword = "böylece";
                 break;
             }
-            case 2:{
+            case 2: {
                 keyword = "için";
                 break;
             }
         }
-        for(Token token : tokens){
-            if (token.getText().equalsIgnoreCase(keyword)){
+        for (Token token : tokens) {
+            if (token.getText().equalsIgnoreCase(keyword)) {
                 return token.getStopIndex();
             }
         }

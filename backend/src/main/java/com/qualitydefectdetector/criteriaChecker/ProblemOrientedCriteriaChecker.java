@@ -27,7 +27,7 @@ public class ProblemOrientedCriteriaChecker {
             if (itemAnalysis.contains("ByDoingSo")) {
                 return aCriteriaCheckResultBuilder()
                         .satisfiesThisCriteria(false)
-                        .errorMessage("A user story should only specify the problem, not the solution to it")
+                        .errorMessage("Uyarı! Bir kullanıcı hikayesi sadece sorunu belirtmelidir, çözümü içermemelidir.")
                         .build();
             }
         }

@@ -29,7 +29,7 @@ public class WellFormedCriteriaChecker {
                 (rolePart.contains("bir") && rolePart.contains("olarak") && rolePart.split("\\s+").length == 2)) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("A user story should contain a role part in format of \"Bir [persona] olarak\" or [persona] olarak\"")
+                    .errorMessage("Bir kullanıcı hikayesinin rol bölümü \"Bir [persona] olarak\" veya \"[persona] olarak\" biçiminde olmalıdır.")
                     .build();
         }
         boolean verbExist = false;
@@ -47,7 +47,7 @@ public class WellFormedCriteriaChecker {
         if(verbExist){
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("A user story's role part should not contain a verb")
+                    .errorMessage("Bir kullanıcı hikayesinin rol bölümü fiil içermemelidir.")
                     .build();
         }
         return aCriteriaCheckResultBuilder()
@@ -68,7 +68,7 @@ public class WellFormedCriteriaChecker {
         if (!directObjectExist) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("A user story's mean part should contain a direct object")
+                    .errorMessage("Bir kullanıcı hikayesinin amaç bölümü nesne içermelidir.")
                     .build();
         }
         return aCriteriaCheckResultBuilder()
