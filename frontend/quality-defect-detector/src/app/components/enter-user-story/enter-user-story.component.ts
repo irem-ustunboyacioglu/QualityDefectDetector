@@ -13,6 +13,8 @@ export class EnterUserStoryComponent implements OnInit {
   formGroup: FormGroup;
   @Input()
   showInputs: boolean;
+  @Input()
+  buttonText: string;
 
   formats = formats;
   verbs = verbs;

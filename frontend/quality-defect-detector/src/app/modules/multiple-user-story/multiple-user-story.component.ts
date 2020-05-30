@@ -4,6 +4,7 @@ import { UserStoryService } from 'src/app/services/user-story.service';
 import { formats, verbs } from 'src/app/shared/constants';
 import { Observable } from 'rxjs';
 import { SetOfUserStoriesReportResponse } from 'src/app/shared/models/set-of-user-stories-report-response';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-multiple-user-story',
@@ -15,7 +16,7 @@ export class MultipleUserStoryComponent implements OnInit {
   formats = formats;
   verbs = verbs;
   multipleUserStoryReport$: Observable<SetOfUserStoriesReportResponse>;
-  userStoryList = [];
+  userStoryList: string[] = [];
   userStoryRange = Array(9);
   userStorySubmitted = false;
 
@@ -28,6 +29,9 @@ export class MultipleUserStoryComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.formGroup.valid) {
+      return;
+    }
     const userStory = this.service.formUserStory(this.formGroup);
     this.userStoryList.push(userStory);
     this.userStorySubmitted = true;
@@ -35,12 +39,17 @@ export class MultipleUserStoryComponent implements OnInit {
       this.userStorySubmitted = false;
       document.getElementById('success-alert').remove();
     }, 8000);
+    if (this.userStoryList.length === this.formGroup.get('userStoryAmount').value) {
+      this.multipleUserStoryReport$ = this.service.analyseMultipleUserStory(this.userStoryList).pipe(filter(item => !!item));
+    }
     this.reset();
   }
+
   reset() {
     const userStoryAmount = this.formGroup.get('userStoryAmount').value;
+    const format = this.formGroup.get('formatType').value;
     this.formGroup.reset();
-    this.formGroup.get('formatType').setValue(this.formats[0]);
+    this.formGroup.get('formatType').setValue(format);
     this.formGroup.get('userStoryGoalPartVerb').setValue(this.verbs[0]);
     this.formGroup.get('userStoryAmount').setValue(userStoryAmount);
   }

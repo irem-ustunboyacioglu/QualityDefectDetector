@@ -18,6 +18,10 @@ export class UserStoryService {
     return this.httpClient.get<SingleUserStoryReportResponse>(`${this.apiURL}/user-story-defects/analyse`,
       { params: { sentence: userStory } });
   }
+  public analyseMultipleUserStory(userStoryList: string[]): Observable<SetOfUserStoriesReportResponse> {
+    return this.httpClient.post<SetOfUserStoriesReportResponse>(`${this.apiURL}/user-story-defects/analyse-multiple`, {},
+      { params: { sentences: userStoryList } });
+  }
 
   public analyseUserStoryFile(file: File): Observable<SetOfUserStoriesReportResponse> {
     const data: FormData = new FormData();

@@ -26,6 +26,9 @@ export class SingleUserStoryComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.formGroup.valid) {
+      return;
+    }
     const userStory = this.service.formUserStory(this.formGroup);
     this.singleUserStoryReport$ = this.service.analyseUserStory(userStory);
     this.showOrHideInputs();
