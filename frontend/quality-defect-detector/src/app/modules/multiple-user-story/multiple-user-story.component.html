@@ -23,12 +23,26 @@
       </ul>
     </div>
   </div>
-  <ng-container *ngIf="multipleUserStoryReport$ | async as multipleUserStoryReport">
-    <!-- <app-listing-card *ngIf="!showInputs" [singleUserStoryReport]="singleUserStoryReport"
-      (resetForm)="showOrHideInputs()">
-    </app-listing-card> -->
-  </ng-container>
   <div id="success-alert" class="alert alert-success success" role="alert" *ngIf="userStorySubmitted">
     Kullanıcı hikayesi başarıyla eklendi.
   </div>
 </form>
+
+<ng-template #reportPopUp>
+  <div class="pop-up-modals">
+    <div class="pop-up-modals__header">
+      <h1 class="pop-up-modals__title">Kullanıcı hikayeleri analizi</h1>
+      <button class="pop-up-modals__close-button" (click)="closeReportModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="pop-up-modals__body">
+      <i class="fas fa-chevron-left pop-up-modals__back-button"
+        (click)="changeIndex(currentIndexOfUserStoryDisplayed - 1)"></i>
+      <i class="fas fa-chevron-right pop-up-modals__next-button"
+        (click)="changeIndex(currentIndexOfUserStoryDisplayed + 1)"></i>
+      <app-listing-card
+        [singleUserStoryReport]="multipleUserStoryReport.singleUserStoryReportList[currentIndexOfUserStoryDisplayed]"
+        [showSuggestionButton]="false" (resetForm)="closeReportModal()">
+      </app-listing-card>
+    </div>
+  </div>
+</ng-template>

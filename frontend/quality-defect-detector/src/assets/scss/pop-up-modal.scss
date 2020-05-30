@@ -1,6 +1,7 @@
 .pop-up-modals {
   .modal-dialog {
     margin: 100px auto 0px;
+    max-width: 600px;
 
     .modal-content {
       border: none;
@@ -16,7 +17,11 @@
   }
 
   &__body {
+    position: relative;
+    padding: 0px 30px;
     min-height: 100px;
+    max-height: 600px;
+    overflow: scroll;
   }
 
   &__title {
@@ -32,6 +37,20 @@
     right: 10px;
     top: 10px;
     font-size: 16px;
+  }
+
+  &__back-button {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  &__next-button {
+    @extend .pop-up-modals__back-button;
+    left: auto;
+    right: 20px;
   }
 
   &__suggestion_container {

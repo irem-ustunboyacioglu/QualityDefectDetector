@@ -16,6 +16,8 @@ export class ListingCardComponent implements OnInit, OnDestroy {
 
   @Input()
   singleUserStoryReport: SingleUserStoryReportResponse;
+  @Input()
+  showSuggestionButton?= true;
 
   @Output()
   resetForm: EventEmitter<any> = new EventEmitter<any>();

@@ -37,10 +37,10 @@
     <p>
       {{criteria.key | removeUnderscore | titlecase }} :
       {{criteria.value.errorMessage ? criteria.value.errorMessage : "This sentence satisfies this criteria."}}
-      <span><i class="fas fa-check"></i></span>
     </p>
-    <button *ngIf="!criteria.value.satisfiesThisCriteria" (click)="showSuggestions()" type="button"
-      class="listing-card__show-recommendations">Önerileri Göster</button>
+    <span><i class="fas fa-check"></i></span>
+    <button *ngIf="!criteria.value.satisfiesThisCriteria && showSuggestionButton" (click)="showSuggestions()"
+      type="button" class="listing-card__show-recommendations">Önerileri Göster</button>
   </div>
   <button type="button" class="listing-card__try-again" (click)="reset()">Tekrar Dene</button>
 </div>
