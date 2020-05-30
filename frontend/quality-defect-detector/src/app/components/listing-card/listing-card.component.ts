@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { SingleUserStoryReportResponse } from 'src/app/shared/models/single-user-story-report.response';
 import { UserStoryService } from '../../services/user-story.service';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './listing-card.component.html',
   styleUrls: ['./listing-card.component.scss']
 })
-export class ListingCardComponent implements OnInit {
+export class ListingCardComponent implements OnInit, OnDestroy {
 
   @ViewChild('popUp', { static: true })
   popUp: ElementRef;
@@ -43,5 +43,10 @@ export class ListingCardComponent implements OnInit {
   }
   reset() {
     this.resetForm.emit();
+  }
+  ngOnDestroy() {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
   }
 }

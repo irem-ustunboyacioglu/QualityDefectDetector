@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SingleUserStoryComponent } from './components/single-user-story/single-user-story.component';
-import { MultipleUserStoryComponent } from './components/multiple-user-story/multiple-user-story.component';
-import { ImportFileComponent } from './components/import-file/import-file.component';
+import { SingleUserStoryComponent } from './modules/single-user-story/single-user-story.component';
+import { MultipleUserStoryComponent } from './modules/multiple-user-story/multiple-user-story.component';
+import { ImportFileComponent } from './modules/import-file/import-file.component';
 
 
 const routes: Routes = [

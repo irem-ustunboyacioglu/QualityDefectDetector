@@ -1,0 +1,22 @@
+<div [formGroup]="formGroup" class="enter-user-story__container" *ngIf="showInputs">
+  <div class="enter-user-story__inputs">
+    <input type="text" readonly value="Bir" style="width:50px;">
+    <input type="text" [formControlName]="'userStoryRolePart'">
+    <input type="text" readonly value="olarak" style="width:100px;">
+  </div>
+  <div class="enter-user-story__inputs" *ngIf="formGroup.get('formatType').value === formats[0]">
+    <input type="text" [formControlName]="'userStoryReasonPart'">
+    <input type="text" readonly value="için" style="width:70px;">
+  </div>
+  <div class="enter-user-story__inputs">
+    <input type="text" [formControlName]="'userStoryGoalPart'">
+    <select [formControlName]="'userStoryGoalPartVerb'">
+      <option *ngFor="let verb of verbs" [value]="verb">{{verb}}</option>
+    </select>
+  </div>
+  <div class="enter-user-story__inputs" *ngIf="formGroup.get('formatType').value === formats[1]">
+    <input type="text" readonly value="Böylece" style="width:100px;">
+    <input type="text" [formControlName]="'userStoryReasonPart'">
+  </div>
+  <button type="submit" class="button enter-user-story__button">Gönder</button>
+</div>

@@ -1,0 +1,16 @@
+.multiple-user-story {
+  display: flex;
+  padding: 20px 0px 0px 20px;
+
+  &__text {
+    font-size: 14px;
+    color: #404259;
+    margin: 0px 20px 0px 0px;
+  }
+
+  &__subtext {
+    padding: 20px 0px 0px 20px;
+    font-size: 12px;
+    color: #6E7081;
+  }
+}

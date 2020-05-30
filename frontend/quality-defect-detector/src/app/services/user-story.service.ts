@@ -3,6 +3,7 @@ import { SingleUserStoryReportResponse } from '../shared/models/single-user-stor
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SetOfUserStoriesReportResponse } from '../shared/models/set-of-user-stories-report-response';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,26 @@ export class UserStoryService {
   public suggestionForSpelling(userStory: string): Observable<Map<string, Array<string>>> {
     return this.httpClient.get<Map<string, Array<string>>>(`${this.apiURL}/user-story-defects/check-spelling`,
       { params: { sentence: userStory } });
+  }
+
+  public formUserStory(formGroup: FormGroup): string {
+    let userStory = '';
+    const formatType = formGroup.get('formatType').value;
+
+    if (formatType === 'Format 1') {
+      userStory = 'bir ' + formGroup.get('userStoryRolePart').value + ' olarak ' +
+        formGroup.get('userStoryReasonPart').value + ' için '
+        + formGroup.get('userStoryGoalPart').value + ' ' + formGroup.get('userStoryGoalPartVerb').value;
+    }
+    if (formatType === 'Format 2') {
+      userStory = 'bir ' + formGroup.get('userStoryRolePart').value + ' olarak ' +
+        formGroup.get('userStoryGoalPart').value + ' ' + formGroup.get('userStoryGoalPartVerb').value +
+        ' böylece ' + formGroup.get('userStoryReasonPart').value;
+    }
+    if (formatType === 'Format 3') {
+      userStory = 'bir ' + formGroup.get('userStoryRolePart').value + ' olarak ' +
+        formGroup.get('userStoryGoalPart').value + ' ' + formGroup.get('userStoryGoalPartVerb').value;
+    }
+    return userStory;
   }
 }

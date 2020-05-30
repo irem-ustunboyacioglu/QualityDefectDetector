@@ -1,0 +1,23 @@
+.format {
+  &__container {
+    border-bottom: 2px solid whitesmoke;
+  }
+
+  &__item {
+    padding: 12px 16px 12px;
+    display: inline-block;
+    font-size: 16px;
+    color: #404259;
+    margin: 0px;
+
+    input {
+      display: none;
+    }
+  }
+
+  &__selected {
+    margin-bottom: -1px;
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+  }
+}

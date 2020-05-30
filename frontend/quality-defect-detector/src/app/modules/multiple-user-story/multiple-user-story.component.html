@@ -1,0 +1,20 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <app-formats [formGroup]="formGroup" [disableFormat]="userStoryList.length > 0"></app-formats>
+  <div class="multiple-user-story">
+    <p class="multiple-user-story__text">Kaç tane kullanıcı hikayesi eklemek istersin?</p>
+    <select [formControlName]="'userStoryAmount'" [attr.disabled]="userStoryList.length > 0 ? '' : null">
+      <option *ngFor="let amount of userStoryRange;let i = index" [value]="i + 2">{{i+2}}</option>
+    </select>
+  </div>
+  <p class="multiple-user-story__subtext">Kalan kullanıcı hikayesi
+    sayısı: {{formGroup.get('userStoryAmount').value - userStoryList.length}}</p>
+  <app-enter-user-story [formGroup]="formGroup" [showInputs]="true"></app-enter-user-story>
+  <!-- <ng-container *ngIf="singleUserStoryReport$ | async as singleUserStoryReport">
+    <app-listing-card *ngIf="!showInputs" [singleUserStoryReport]="singleUserStoryReport"
+      (resetForm)="showOrHideInputs()">
+    </app-listing-card>
+  </ng-container> -->
+  <div id="success-alert" class="alert alert-success success" role="alert" *ngIf="userStorySubmitted">
+    Kullanıcı hikayesi başarıyla eklendi.
+  </div>
+</form>

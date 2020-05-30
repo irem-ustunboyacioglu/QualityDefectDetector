@@ -17,3 +17,19 @@
 @import '~bootstrap/scss/custom-forms';
 @import '~bootstrap/scss/bootstrap';
 @import '../../node_modules/@fortawesome/fontawesome-free/css/all.css';
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.success {
+  animation-name: fade-out;
+  animation-duration: 8s;
+  margin-top: 30px;
+}
