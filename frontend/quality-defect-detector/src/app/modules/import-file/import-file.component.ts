@@ -32,6 +32,7 @@ export class ImportFileComponent implements OnInit {
       this.downloadFile(response);
       this.reportSuccessfullyDownloaded = true;
       setTimeout(() => {
+        this.reportSuccessfullyDownloaded = false;
         document.getElementById('success-alert').remove();
       }, 8000);
     });

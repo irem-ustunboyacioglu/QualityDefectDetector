@@ -1,0 +1,23 @@
+.enter-user-story {
+  &__inputs {
+    padding: 30px 0px 10px 20px;
+
+    input,
+    select {
+      font-size: 16px;
+      text-align: center;
+      border: 1px solid #c5c6cd;
+      border-radius: 2px;
+      padding: 5px 10px;
+      outline: 0;
+    }
+
+    select {
+      height: 31px;
+    }
+  }
+
+  &__button {
+    margin: 20px 0px 0px 20px;
+  }
+}

@@ -1,0 +1,7 @@
+<div [formGroup]="formGroup" class="format__container">
+  <label *ngFor="let format of formats" class="format__item"
+    [ngClass]="{'format__selected': formGroup.get('formatType').value === format}">
+    {{format}}
+    <input type="radio" [value]="format" [formControlName]="'formatType'" [attr.disabled]="disableFormat ? '' : null">
+  </label>
+</div>

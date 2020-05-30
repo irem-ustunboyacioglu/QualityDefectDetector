@@ -1,0 +1,10 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <app-formats [formGroup]="formGroup"></app-formats>
+  <app-enter-user-story [formGroup]="formGroup" [showInputs]="showInputs" [buttonText]="'Gönder'">
+  </app-enter-user-story>
+  <ng-container *ngIf="singleUserStoryReport$ | async as singleUserStoryReport">
+    <app-listing-card *ngIf="!showInputs" [singleUserStoryReport]="singleUserStoryReport"
+      (resetForm)="showOrHideInputs()">
+    </app-listing-card>
+  </ng-container>
+</form>

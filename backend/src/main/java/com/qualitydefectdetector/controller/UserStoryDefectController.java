@@ -93,7 +93,7 @@ public class UserStoryDefectController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/analyse-multiple")
-    public SetOfUserStoryReport analyseFile(@RequestParam("sentences") List<String> sentences) {
+    public SetOfUserStoryReport analyseMultipleUserStory(@RequestParam("sentences") List<String> sentences) {
         return userStoryDefectService.analyseMultipleUserStories(sentences);
     }
 

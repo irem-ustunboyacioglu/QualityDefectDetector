@@ -6,10 +6,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { CommonModule } from '@angular/common';
-import { MultipleUserStoryComponent } from './components/multiple-user-story/multiple-user-story.component';
-import { ImportFileComponent } from './components/import-file/import-file.component';
+import { ImportFileComponent } from './modules/import-file/import-file.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SingleUserStoryModule } from './components/single-user-story/single-user-story.module';
+import { SingleUserStoryModule } from './modules/single-user-story/single-user-story.module';
+import { MultipleUserStoryModule } from './modules/multiple-user-story/multiple-user-story.module';
 
 
 @NgModule({
@@ -18,7 +18,6 @@ import { SingleUserStoryModule } from './components/single-user-story/single-use
     DashboardComponent,
     SideMenuComponent,
     MainMenuComponent,
-    MultipleUserStoryComponent,
     ImportFileComponent,
   ],
   imports: [
@@ -26,7 +25,8 @@ import { SingleUserStoryModule } from './components/single-user-story/single-use
     AppRoutingModule,
     CommonModule,
     HttpClientModule,
-    SingleUserStoryModule
+    SingleUserStoryModule,
+    MultipleUserStoryModule
   ],
   providers: [],
   bootstrap: [AppComponent]

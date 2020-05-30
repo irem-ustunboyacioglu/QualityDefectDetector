@@ -37,29 +37,36 @@
     <p>
       {{criteria.key | removeUnderscore | titlecase }} :
       {{criteria.value.errorMessage ? criteria.value.errorMessage : "This sentence satisfies this criteria."}}
-      <span><i class="fas fa-check"></i></span>
     </p>
-    <button *ngIf="!criteria.value.satisfiesThisCriteria" (click)="showSuggestions()" type="button"
-      class="listing-card__show-recommendations">Önerileri Göster</button>
+    <span><i class="fas fa-check"></i></span>
+    <button *ngIf="!criteria.value.satisfiesThisCriteria && showSuggestionButton" (click)="showSuggestions()"
+      type="button" class="listing-card__show-recommendations">Önerileri Göster</button>
   </div>
   <button type="button" class="listing-card__try-again" (click)="reset()">Tekrar Dene</button>
 </div>
 <ng-template #popUp>
-  <div class="pop-up-modals" *ngIf="suggestions$ | async as suggestionMap">
+  <div class="pop-up-modals">
     <div class="pop-up-modals__header">
       <h1 class="pop-up-modals__title">Öneriler</h1>
       <button class="pop-up-modals__close-button" (click)="close()"><i class="fas fa-times"></i></button>
     </div>
     <div class="pop-up-modals__body">
-      <div class="pop-up-modals__suggestion_container" *ngFor="let suggestion of suggestionMap | keyvalue">
-        <p>
-          <strong>"{{suggestion.key}}": </strong>
-          <span class="pop-up-modals__text" *ngFor="let value of suggestion.value; let i = index">
-            <ng-container *ngIf="i !== suggestion.value.length-1">{{value}}, </ng-container>
-            <ng-container *ngIf="i === suggestion.value.length-1">{{value}}</ng-container>
-          </span>
-        </p>
-      </div>
+      <ng-container *ngIf="suggestions$ | async as suggestionMap; else noSuggestion">
+        <div class="pop-up-modals__suggestion_container" *ngFor="let suggestion of suggestionMap | keyvalue">
+          <p>
+            <strong>"{{suggestion.key}}": </strong>
+            <span class="pop-up-modals__text" *ngFor="let value of suggestion.value; let i = index">
+              <ng-container *ngIf="i !== suggestion.value.length-1">{{value}}, </ng-container>
+              <ng-container *ngIf="i === suggestion.value.length-1">{{value}}</ng-container>
+            </span>
+          </p>
+        </div>
+      </ng-container>
+      <ng-template #noSuggestion>
+        <div class="pop-up-modals__error-text">
+          <strong class="">Bu kriter için herhangi bir öneri bulunmamaktadır!</strong>
+        </div>
+      </ng-template>
     </div>
   </div>
 </ng-template>
