@@ -61,7 +61,7 @@ export class MultipleUserStoryComponent implements OnInit {
     this.reset();
   }
   changeIndex(index: number) {
-    if (index < 0 || index > this.userStoryList.length - 1) {
+    if (index < 0 || index > this.userStoryList.length) {
       return;
     }
     this.currentIndexOfUserStoryDisplayed = index;

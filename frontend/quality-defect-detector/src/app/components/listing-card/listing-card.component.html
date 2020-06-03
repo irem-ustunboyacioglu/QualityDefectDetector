@@ -1,4 +1,4 @@
-<div class="user-story">
+<div *ngIf="singleUserStoryReport.userStory" class="user-story">
   <p class="user-story__result">
     <strong class="user-story__result__title">Format:</strong>
     <span class="user-story__result__text">
@@ -31,7 +31,7 @@
   </p>
 </div>
 <div class="listing-card">
-  <p class="listing-card__title">Kriterlerler:</p>
+  <p class="listing-card__title">{{singleUserStoryReport.userStory ? 'Kriterler:' : 'Set Kriterler:'}}</p>
   <div class="listing-card__criteria" *ngFor="let criteria of singleUserStoryReport.criteriaCheckResults | keyvalue"
     [ngClass]="{'listing-card__success':criteria.value.satisfiesThisCriteria,'listing-card__error':!criteria.value.satisfiesThisCriteria}">
     <p>

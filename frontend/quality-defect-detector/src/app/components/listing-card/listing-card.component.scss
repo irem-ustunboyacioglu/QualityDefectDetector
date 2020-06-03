@@ -1,6 +1,6 @@
 .user-story {
   max-width: 400px;
-  margin: 40px auto;
+  margin: 40px auto 0px;
   padding: 0px 20px;
   border: 2px solid #1C6EA4;
 
@@ -21,6 +21,7 @@
 
   &__title {
     padding: 5px;
+    margin-top: 40px;
     color: #404259;
     font-size: 24px;
     border-bottom: 2px solid whitesmoke;
