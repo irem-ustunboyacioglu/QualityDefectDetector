@@ -36,7 +36,7 @@
     [ngClass]="{'listing-card__success':criteria.value.satisfiesThisCriteria,'listing-card__error':!criteria.value.satisfiesThisCriteria}">
     <p>
       {{criteria.key | removeUnderscore | titlecase }} :
-      {{criteria.value.errorMessage ? criteria.value.errorMessage : "This sentence satisfies this criteria."}}
+      {{criteria.value.errorMessage ? criteria.value.errorMessage : "Bu cümle bu kriteri karşılamaktadır."}}
     </p>
     <span><i class="fas fa-check"></i></span>
     <button *ngIf="!criteria.value.satisfiesThisCriteria && showSuggestionButton" (click)="showSuggestions()"
