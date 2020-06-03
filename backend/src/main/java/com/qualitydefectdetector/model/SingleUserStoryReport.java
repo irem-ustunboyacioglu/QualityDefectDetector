@@ -1,24 +1,23 @@
 package com.qualitydefectdetector.model;
 
-import com.qualitydefectdetector.enums.CriteriaType;
-
 import java.util.HashMap;
+import java.util.Map;
 
 public class SingleUserStoryReport {
 
-    private HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults;
+    private Map<String, CriteriaCheckResult> criteriaCheckResults;
     private UserStory userStory;
 
-    public SingleUserStoryReport(HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults, UserStory userStory) {
+    public SingleUserStoryReport(Map<String, CriteriaCheckResult> criteriaCheckResults, UserStory userStory) {
         this.criteriaCheckResults = criteriaCheckResults;
         this.userStory = userStory;
     }
 
-    public HashMap<CriteriaType, CriteriaCheckResult> getCriteriaCheckResults() {
+    public Map<String, CriteriaCheckResult> getCriteriaCheckResults() {
         return criteriaCheckResults;
     }
 
-    public void setCriteriaCheckResults(HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults) {
+    public void setCriteriaCheckResults(Map<String, CriteriaCheckResult> criteriaCheckResults) {
         this.criteriaCheckResults = criteriaCheckResults;
     }
 
@@ -31,7 +30,7 @@ public class SingleUserStoryReport {
     }
 
     public static final class SingleUserStoryReportBuilder {
-        private HashMap<CriteriaType, CriteriaCheckResult> criteriaCheckResults;
+        private Map<String, CriteriaCheckResult> criteriaCheckResults;
         private UserStory userStory;
 
         private SingleUserStoryReportBuilder() {

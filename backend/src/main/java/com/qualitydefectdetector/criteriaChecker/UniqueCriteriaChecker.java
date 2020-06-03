@@ -49,7 +49,7 @@ public class UniqueCriteriaChecker {
         if (!satisfies) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("There are duplicate sentences in this set of user stories. Duplicate sentences are as follows: " + duplicateSentences)
+                    .errorMessage("Bu kullanıcı hikaye setinde tekrarlanan cümleler var. Tekrarlanan cümleler: " + duplicateSentences)
                     .build();
         }
 

@@ -1,20 +1,18 @@
 package com.qualitydefectdetector.model;
 
-import com.qualitydefectdetector.enums.UserStoryType;
-
 public class UserStory {
 
-    private UserStoryType userStoryType;
+    private String userStoryType;
     private String userStorySentence;
     private String role;
     private String goal;
     private String reason;
 
-    public UserStoryType getUserStoryType() {
+    public String getUserStoryType() {
         return userStoryType;
     }
 
-    public void setUserStoryType(UserStoryType userStoryType) {
+    public void setUserStoryType(String userStoryType) {
         this.userStoryType = userStoryType;
     }
 
@@ -51,7 +49,7 @@ public class UserStory {
     }
 
     public static final class UserStoryBuilder {
-        private UserStoryType userStoryType;
+        private String userStoryType;
         private String userStorySentence;
         private String role;
         private String goal;
@@ -60,11 +58,11 @@ public class UserStory {
         private UserStoryBuilder() {
         }
 
-        public static UserStoryBuilder aUserStory() {
+        public static UserStoryBuilder anUserStory() {
             return new UserStoryBuilder();
         }
 
-        public UserStoryBuilder userStoryType(UserStoryType userStoryType) {
+        public UserStoryBuilder userStoryType(String userStoryType) {
             this.userStoryType = userStoryType;
             return this;
         }

@@ -37,7 +37,7 @@ public class MinimalCriteriaChecker {
         if(Pattern.matches(ExtraNote.EXTRA_NOTE_WITH_PUNCTUATION.getFormatRegex(),sentence)){
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("A user story should not contain any side notes")
+                    .errorMessage("Bir kullanıcı hikayesinde yan not bulunmamalıdır.")
                     .build();
         }
         return aCriteriaCheckResultBuilder()
@@ -50,7 +50,7 @@ public class MinimalCriteriaChecker {
         if(!zemberekProcessor.isOneSentence(sentence)){
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("A user story should not contain more than one sentence")
+                    .errorMessage("Bir kullanıcı hikayesinde birden fazla cümle bulunmamalıdır.")
                     .build();
         }
         return aCriteriaCheckResultBuilder()

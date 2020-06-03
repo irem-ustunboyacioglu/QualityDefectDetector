@@ -1,6 +1,5 @@
 package com.qualitydefectdetector.criteriaChecker;
 
-import com.qualitydefectdetector.enums.UserStoryType;
 import com.qualitydefectdetector.model.CriteriaCheckResult;
 import com.qualitydefectdetector.model.UserStory;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
@@ -9,6 +8,7 @@ import zemberek.morphology.analysis.SingleAnalysis;
 
 import java.util.List;
 
+import static com.qualitydefectdetector.enums.UserStoryType.ROLE_GOAL;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
 
@@ -22,7 +22,7 @@ public class AtomicCriteriaChecker {
     }
 
     public CriteriaCheckResult checkIsAtomic(UserStory userStory) {
-        if (userStory.getUserStoryType() != UserStoryType.ROLE_GOAL) {
+        if (!userStory.getUserStoryType().equals(ROLE_GOAL.getDisplayName())) {
             List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getReason());
             for (SingleAnalysis item : analysis) {
                 String itemAnalysis = item.formatLong();
@@ -30,7 +30,7 @@ public class AtomicCriteriaChecker {
 
                     return aCriteriaCheckResultBuilder()
                             .satisfiesThisCriteria(false)
-                            .errorMessage("A user story should explain a requirement for exactly one feature.")
+                            .errorMessage("Bir kullanıcı hikayesi sadece bir özellikle ilgili bir gereksinim içermelidir.")
                             .build();
                 }
             }
@@ -42,7 +42,7 @@ public class AtomicCriteriaChecker {
             if (itemAnalysis.contains("Conj")) {
                 return aCriteriaCheckResultBuilder()
                         .satisfiesThisCriteria(false)
-                        .errorMessage("A user story should explain a requirement for exactly one feature.")
+                        .errorMessage("Bir kullanıcı hikayesi sadece bir özellikle ilgili bir gereksinim içermelidir.")
                         .build();
             }
         }

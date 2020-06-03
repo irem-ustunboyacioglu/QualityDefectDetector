@@ -1,27 +1,26 @@
 package com.qualitydefectdetector.model;
 
 
-import com.qualitydefectdetector.enums.CriteriaType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SetOfUserStoryReport {
 
-    private HashMap<CriteriaType, CriteriaCheckResult> setCriteriaResults;
+    private Map<String, CriteriaCheckResult> setCriteriaResults;
     private List<SingleUserStoryReport> singleUserStoryReportList;
 
-    public SetOfUserStoryReport(HashMap<CriteriaType, CriteriaCheckResult> setCriteriaResults, List<SingleUserStoryReport> singleUserStoryReportList) {
+    public SetOfUserStoryReport(Map<String, CriteriaCheckResult> setCriteriaResults, List<SingleUserStoryReport> singleUserStoryReportList) {
         this.setCriteriaResults = setCriteriaResults;
         this.singleUserStoryReportList = singleUserStoryReportList;
     }
 
-    public HashMap<CriteriaType, CriteriaCheckResult> getSetCriteriaResults() {
+    public Map<String, CriteriaCheckResult> getSetCriteriaResults() {
         return setCriteriaResults;
     }
 
-    public void setSetCriteriaResults(HashMap<CriteriaType, CriteriaCheckResult> setCriteriaResults) {
+    public void setSetCriteriaResults(Map<String, CriteriaCheckResult> setCriteriaResults) {
         this.setCriteriaResults = setCriteriaResults;
     }
 
@@ -34,7 +33,7 @@ public class SetOfUserStoryReport {
     }
 
     public static final class SetOfUserStoryReportBuilder {
-        private HashMap<CriteriaType, CriteriaCheckResult> setCriteriaResults;
+        private Map<String, CriteriaCheckResult> setCriteriaResults;
         private List<SingleUserStoryReport> singleUserStoryReportList;
 
         private SetOfUserStoryReportBuilder() {
