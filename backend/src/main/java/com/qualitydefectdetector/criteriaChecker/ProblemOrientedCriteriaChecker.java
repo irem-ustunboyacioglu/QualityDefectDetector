@@ -8,6 +8,7 @@ import zemberek.morphology.analysis.SingleAnalysis;
 
 import java.util.List;
 
+import static com.qualitydefectdetector.enums.CriteriaType.PROBLEM_ORIENTED;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
 @Component
@@ -28,6 +29,7 @@ public class ProblemOrientedCriteriaChecker {
                 return aCriteriaCheckResultBuilder()
                         .satisfiesThisCriteria(false)
                         .errorMessage("Uyarı! Bir kullanıcı hikayesi sadece sorunu belirtmelidir, çözümü içermemelidir.")
+                        .description(PROBLEM_ORIENTED.getDescription())
                         .build();
             }
         }
@@ -35,6 +37,7 @@ public class ProblemOrientedCriteriaChecker {
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(PROBLEM_ORIENTED.getDescription())
                 .build();
     }
 }

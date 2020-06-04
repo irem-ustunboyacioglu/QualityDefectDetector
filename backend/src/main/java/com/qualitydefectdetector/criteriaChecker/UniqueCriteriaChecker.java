@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.qualitydefectdetector.enums.CriteriaType.UNIQUE;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
 @Service
@@ -50,12 +51,14 @@ public class UniqueCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bu kullanıcı hikaye setinde tekrarlanan cümleler var. Tekrarlanan cümleler: " + duplicateSentences)
+                    .description(UNIQUE.getDescription())
                     .build();
         }
 
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(UNIQUE.getDescription())
                 .build();
     }
 

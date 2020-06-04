@@ -126,11 +126,13 @@ public class UserStoryDefectService {
             return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(true)
                     .errorMessage("")
+                    .description(SPELLING.getDescription())
                     .build();
         }
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(false)
                 .errorMessage("Bu kullanıcı hikayesinde " + numOfWrongSpelledWords + " kelime yanlış yazılmış!")
+                .description(SPELLING.getDescription())
                 .build();
     }
 
@@ -151,7 +153,9 @@ public class UserStoryDefectService {
         UserStory userStory = parse(sentence);
 
         if (userStory.getUserStoryType().equals(UNDEFINED.getDisplayName())) {
-            return notCheckedBecauseOfFormat();
+            CriteriaCheckResult criteriaCheckResult = notCheckedBecauseOfFormat();
+            criteriaCheckResult.setDescription(WELL_FORMED.getDescription());
+            return criteriaCheckResult;
         }
 
         CriteriaCheckResult rolePartResult = wellFormedCriteriaChecker.checkRolePart(userStory);
@@ -167,6 +171,7 @@ public class UserStoryDefectService {
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(WELL_FORMED.getDescription())
                 .build();
     }
 
@@ -174,6 +179,8 @@ public class UserStoryDefectService {
         UserStory userStory = parse(sentence);
 
         if (userStory.getUserStoryType().equals(UNDEFINED.getDisplayName())) {
+            CriteriaCheckResult criteriaCheckResult = notCheckedBecauseOfFormat();
+            criteriaCheckResult.setDescription(ATOMIC.getDescription());
             return notCheckedBecauseOfFormat();
         }
         return atomicCriteriaChecker.checkIsAtomic(userStory);
@@ -193,6 +200,7 @@ public class UserStoryDefectService {
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(MINIMAL.getDescription())
                 .build();
     }
 
@@ -200,6 +208,7 @@ public class UserStoryDefectService {
         return CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(FULL_SENTENCE.getDescription())
                 .build();
     }
 
