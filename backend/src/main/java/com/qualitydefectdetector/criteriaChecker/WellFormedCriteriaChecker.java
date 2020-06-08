@@ -9,6 +9,7 @@ import zemberek.morphology.analysis.SingleAnalysis;
 
 import java.util.List;
 
+import static com.qualitydefectdetector.enums.CriteriaType.WELL_FORMED;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
 @Service
@@ -30,6 +31,7 @@ public class WellFormedCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinin rol bölümü \"Bir [persona] olarak\" veya \"[persona] olarak\" biçiminde olmalıdır.")
+                    .description(WELL_FORMED.getDescription())
                     .build();
         }
         boolean verbExist = false;
@@ -48,11 +50,13 @@ public class WellFormedCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinin rol bölümü fiil içermemelidir.")
+                    .description(WELL_FORMED.getDescription())
                     .build();
         }
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(WELL_FORMED.getDescription())
                 .build();
     }
 
@@ -69,11 +73,13 @@ public class WellFormedCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinin amaç bölümü nesne içermelidir.")
+                    .description(WELL_FORMED.getDescription())
                     .build();
         }
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(WELL_FORMED.getDescription())
                 .build();
     }
 }

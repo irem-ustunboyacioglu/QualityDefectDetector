@@ -4,6 +4,8 @@ import com.qualitydefectdetector.model.CriteriaCheckResult;
 import com.qualitydefectdetector.nlpprocessor.ZemberekProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.qualitydefectdetector.enums.CriteriaType.MINIMAL;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
 import java.util.regex.Pattern;
@@ -38,11 +40,13 @@ public class MinimalCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinde yan not bulunmamalıdır.")
+                    .description(MINIMAL.getDescription())
                     .build();
         }
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(MINIMAL.getDescription())
                 .build();
     }
 
@@ -51,11 +55,13 @@ public class MinimalCriteriaChecker {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinde birden fazla cümle bulunmamalıdır.")
+                    .description(MINIMAL.getDescription())
                     .build();
         }
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(MINIMAL.getDescription())
                 .build();
     }
 }

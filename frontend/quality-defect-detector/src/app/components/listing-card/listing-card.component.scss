@@ -36,16 +36,50 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
     &:last-of-type {
       margin-bottom: 20px;
     }
   }
 
+  &__tooltip {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 6px;
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    bottom: 120%;
+    left: -17px;
+    transition: opacity .6s;
+
+    &:after {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+    }
+  }
+
+  &__question-mark {
+    font-size: 16px;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+  }
+
   &__error {
     border: 1px solid #dc3545;
 
-    span {
+    .listing-card__checkmark {
       display: none;
     }
   }

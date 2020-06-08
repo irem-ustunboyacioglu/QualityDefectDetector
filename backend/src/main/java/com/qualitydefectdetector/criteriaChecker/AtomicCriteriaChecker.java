@@ -8,6 +8,7 @@ import zemberek.morphology.analysis.SingleAnalysis;
 
 import java.util.List;
 
+import static com.qualitydefectdetector.enums.CriteriaType.ATOMIC;
 import static com.qualitydefectdetector.enums.UserStoryType.ROLE_GOAL;
 import static com.qualitydefectdetector.model.CriteriaCheckResult.CriteriaCheckResultBuilder.aCriteriaCheckResultBuilder;
 
@@ -31,6 +32,7 @@ public class AtomicCriteriaChecker {
                     return aCriteriaCheckResultBuilder()
                             .satisfiesThisCriteria(false)
                             .errorMessage("Bir kullanıcı hikayesi sadece bir özellikle ilgili bir gereksinim içermelidir.")
+                            .description(ATOMIC.getDescription())
                             .build();
                 }
             }
@@ -43,6 +45,7 @@ public class AtomicCriteriaChecker {
                 return aCriteriaCheckResultBuilder()
                         .satisfiesThisCriteria(false)
                         .errorMessage("Bir kullanıcı hikayesi sadece bir özellikle ilgili bir gereksinim içermelidir.")
+                        .description(ATOMIC.getDescription())
                         .build();
             }
         }
@@ -50,6 +53,7 @@ public class AtomicCriteriaChecker {
         return aCriteriaCheckResultBuilder()
                 .satisfiesThisCriteria(true)
                 .errorMessage("")
+                .description(ATOMIC.getDescription())
                 .build();
     }
 }

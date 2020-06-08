@@ -40,12 +40,25 @@ export class ListingCardComponent implements OnInit, OnDestroy {
       })
     }, 200);
   }
+
+  showOrHideTooltip(i: number) {
+    const tooltips = document.querySelectorAll('.listing-card__tooltip');
+    if (tooltips[i].hasAttribute('style')) {
+      tooltips[i].removeAttribute('style');
+    }
+    else {
+      tooltips[i].setAttribute('style', 'visibility: visible; opacity: 1;');
+    }
+  }
+
   close() {
     this.modalRef.close();
   }
+
   reset() {
     this.resetForm.emit();
   }
+
   ngOnDestroy() {
     if (this.modalRef) {
       this.modalRef.close();
