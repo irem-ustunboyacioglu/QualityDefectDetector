@@ -63,13 +63,13 @@ public class WellFormedCriteriaChecker {
     public CriteriaCheckResult checkGoalPart(UserStory userStory) {
         List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getGoal());
 
-        boolean directObjectExist = false;
+        boolean objectExist = false;
         for (SingleAnalysis item : analysis) {
-            if (item.formatLong().contains("Noun") && item.formatLong().contains("Acc")) {
-                directObjectExist = true;
+            if (item.formatLong().contains("Noun") && (item.formatLong().contains("Acc") || item.formatLong().endsWith("A3sg"))) {
+                objectExist = true;
             }
         }
-        if (!directObjectExist) {
+        if (!objectExist) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
                     .errorMessage("Bir kullanıcı hikayesinin amaç bölümü nesne içermelidir.")
