@@ -70,6 +70,11 @@ public class UserStoryDefectController {
         return userStoryDefectService.checkProblemOrientedCriteria(sentence);
     }
 
+    @GetMapping("/conflict-free")
+    public CriteriaCheckResult checkProblemOrientedCriteria(@RequestParam List<String> sentences) {
+        return userStoryDefectService.checkConflictFreeCriteria(sentences);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/analyse-file")
     public SetOfUserStoryReport analyseFile(@RequestParam("file") MultipartFile uploadingFile) throws IOException {
