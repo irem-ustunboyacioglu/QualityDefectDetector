@@ -50,7 +50,7 @@ public class UniqueCriteriaChecker {
         if (!satisfies) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("Bu kullanıcı hikaye setinde tekrarlanan cümleler var. Tekrarlanan cümleler: " + duplicateSentences)
+                    .errorMessage("Tekrarlanan cümleler: " + duplicateSentences)
                     .description(UNIQUE.getDescription())
                     .build();
         }
