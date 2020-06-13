@@ -29,28 +29,38 @@ public class ConflictFreeCriteriaChecker {
 
     public CriteriaCheckResult checkUserStorySetHasConflict(List<String> sentences) {
         HashMap<String, Integer> verbs = new HashMap<>();
-        List<Pair<Integer,Integer>> conflictedSentenceNumbers = new ArrayList<>();
+        List<Pair<Integer, Integer>> conflictedSentenceNumbers = new ArrayList<>();
         List<Pair<String, String>> conflictedVerbs = new ArrayList<>();
 
         final List<UserStory> userStories = sentences.stream().map(this::parse).collect(Collectors.toList());
 
         for (int i = 0; i < userStories.size(); i++) {
             final UserStory userStory = userStories.get(i);
-            List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getGoal());
-            for (SingleAnalysis item : analysis) {
+            List<SingleAnalysis> goalAnalysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getGoal());
+            for (SingleAnalysis item : goalAnalysis) {
                 String itemAnalysis = item.formatLong();
-                if (itemAnalysis.contains("Verb") && itemAnalysis.contains("+me:Neg")) {
-                    final String turnedVerb = itemAnalysis.replace("+me:Neg", "");
-                    if (verbs.containsKey(turnedVerb)) {
-                        if (verbs.get(turnedVerb) != i + 1) {
-                            conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf(":"))));
-                            conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                if (itemAnalysis.contains("Verb")) {
+                    if (itemAnalysis.contains("+me:Neg")) {
+                        final String turnedVerb = itemAnalysis.replace("+me:Neg", "");
+                        if (verbs.containsKey(turnedVerb)) {
+                            if (verbs.get(turnedVerb) != i + 1) {
+                                conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf(":"))));
+                                conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                            }
+                        } else {
+                            verbs.put(itemAnalysis, i + 1);
                         }
-                    } else {
-                        verbs.put(itemAnalysis, i + 1);
-                    }
-                } else if (itemAnalysis.contains("Verb")) {
-                    if (itemAnalysis.contains("|mek")) {
+                    } else if (itemAnalysis.contains("+ma:Neg")) {
+                        final String turnedVerb = itemAnalysis.replace("+ma:Neg", "");
+                        if (verbs.containsKey(turnedVerb)) {
+                            if (verbs.get(turnedVerb) != i + 1) {
+                                conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf(":"))));
+                                conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                            }
+                        } else {
+                            verbs.put(itemAnalysis, i + 1);
+                        }
+                    } else if (itemAnalysis.contains("|mek")) {
                         final String turnedVerb = itemAnalysis.replace("|mek", "+me:Neg|mek");
                         if (verbs.containsKey(turnedVerb)) {
                             if (verbs.get(turnedVerb) != i + 1) {
@@ -70,6 +80,53 @@ public class ConflictFreeCriteriaChecker {
                     verbs.put(itemAnalysis, i + 1);
                 }
             }
+
+            if (userStory.getReason() != null) {
+                List<SingleAnalysis> reasonAnalysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getReason());
+                for (SingleAnalysis item : reasonAnalysis) {
+                    String itemAnalysis = item.formatLong();
+                    if (itemAnalysis.contains("Verb")) {
+                        if (itemAnalysis.contains("+me:Neg")) {
+                            final String turnedVerb = itemAnalysis.replace("+me:Neg", "");
+                            if (verbs.containsKey(turnedVerb)) {
+                                if (verbs.get(turnedVerb) != i + 1) {
+                                    conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf(":"))));
+                                    conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                                }
+                            } else {
+                                verbs.put(itemAnalysis, i + 1);
+                            }
+                        } else if (itemAnalysis.contains("+ma:Neg")) {
+                            final String turnedVerb = itemAnalysis.replace("+ma:Neg", "");
+                            if (verbs.containsKey(turnedVerb)) {
+                                if (verbs.get(turnedVerb) != i + 1) {
+                                    conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf(":"))));
+                                    conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                                }
+                            } else {
+                                verbs.put(itemAnalysis, i + 1);
+                            }
+                        } else if (itemAnalysis.contains("|mek")) {
+                            final String turnedVerb = itemAnalysis.replace("|mek", "+me:Neg|mek");
+                            if (verbs.containsKey(turnedVerb)) {
+                                if (verbs.get(turnedVerb) != i + 1) {
+                                    conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf("mek")) + "memek"));
+                                    conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                                }
+                            }
+                        } else if (itemAnalysis.contains("|mak")) {
+                            final String turnedVerb = itemAnalysis.replace("|mak", "+ma:Neg|mak");
+                            if (verbs.containsKey(turnedVerb)) {
+                                if (verbs.get(turnedVerb) != i + 1) {
+                                    conflictedVerbs.add(new Pair<>(item.getLemmas().get(item.getLemmas().size() - 1), turnedVerb.substring(1, turnedVerb.indexOf("mak")) + "mamak"));
+                                    conflictedSentenceNumbers.add(new Pair<>(verbs.get(turnedVerb), i + 1));
+                                }
+                            }
+                        }
+                        verbs.put(itemAnalysis, i + 1);
+                    }
+                }
+            }
         }
 
         String conflictedSentences = "";
@@ -86,7 +143,7 @@ public class ConflictFreeCriteriaChecker {
         if (!conflictedSentences.equals("")) {
             return aCriteriaCheckResultBuilder()
                     .satisfiesThisCriteria(false)
-                    .errorMessage("Zıtlık bulunan cümleler: " + conflictedSentences)
+                    .errorMessage("Çelişki bulunan cümleler: " + conflictedSentences)
                     .description(CONFLICT_FREE.getDescription())
                     .build();
         }
