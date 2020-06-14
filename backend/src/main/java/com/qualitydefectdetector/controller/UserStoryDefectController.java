@@ -75,23 +75,25 @@ public class UserStoryDefectController {
         return userStoryDefectService.checkConflictFreeCriteria(sentences);
     }
 
+    @GetMapping("/independent")
+    public CriteriaCheckResult checkIndependentCriteria(@RequestParam List<String> sentences) {
+        return userStoryDefectService.checkIndependentCriteria(sentences);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/analyse-file")
     public SetOfUserStoryReport analyseFile(@RequestParam("file") MultipartFile uploadingFile) throws IOException {
         String fileName = uploadingFile.getOriginalFilename();
-        if(Pattern.matches(".*\\.txt",fileName)){
+        if (Pattern.matches(".*\\.txt", fileName)) {
             List<String> userStories = TxtReader.readFile(uploadingFile);
             return userStoryDefectService.analyseMultipleUserStories(userStories);
-        }
-        else if(Pattern.matches(".*\\.csv",fileName)) {
+        } else if (Pattern.matches(".*\\.csv", fileName)) {
             List<String> userStories = CsvReader.readFile(uploadingFile);
             return userStoryDefectService.analyseMultipleUserStories(userStories);
-        }
-        else if(Pattern.matches(".*\\.xlsx",fileName)) {
+        } else if (Pattern.matches(".*\\.xlsx", fileName)) {
             List<String> userStories = XlsxReader.readFile(uploadingFile);
             return userStoryDefectService.analyseMultipleUserStories(userStories);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Sadece txt, csv veya xlsx dosyaları yükleyebilirsiniz.");
         }
     }
