@@ -78,6 +78,7 @@
 
   &__error {
     border: 1px solid #dc3545;
+    background-color: #FFCCCC;
 
     .listing-card__checkmark {
       display: none;
@@ -86,7 +87,7 @@
 
   &__success {
     border: 1px solid #168F43;
-    background-color: #EDFFF4;
+    background-color: #F7FFEE;
     position: relative;
     display: flex;
     justify-content: space-between;
