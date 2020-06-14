@@ -50,11 +50,11 @@ export class ImportFileComponent implements OnInit {
           `${setCriteriaResults[key].errorMessage ? setCriteriaResults[key].errorMessage : 'Yok'}\r\n`;
       });
 
-      csvString += 'Kullanıcı Hikayesi,Tam Cümle, Atomik,İyi Biçimlendirilmiş,Minimal, Probleme Yönelik, Yazım\r\n';
+      csvString += ',Kullanıcı Hikayesi,Tam Cümle, Atomik,İyi Biçimlendirilmiş,Minimal, Probleme Yönelik, Yazım\r\n';
 
-      singleUserStoryReportList.forEach(userStoryRow => {
+      singleUserStoryReportList.forEach(( userStoryRow, index) => {
         const {userStory, criteriaCheckResults} = userStoryRow;
-        csvString += `${userStory.userStorySentence}` + ',' +
+        csvString += `KH ${index} , ${userStory.userStorySentence}` + ',' +
        `${criteriaCheckResults['Tam Cümle'].satisfiesThisCriteria ? 'Geçti' : criteriaCheckResults['Tam Cümle'].errorMessage ? criteriaCheckResults['Tam Cümle'].errorMessage : 'Yok'}` + ',' +
           `${criteriaCheckResults['Atomik'].satisfiesThisCriteria ? 'Geçti' : criteriaCheckResults['Atomik'].errorMessage ? criteriaCheckResults['Atomik'].errorMessage : 'Yok'}` + ',' +
           `${criteriaCheckResults['İyi Biçimlendirilmiş'].satisfiesThisCriteria ? 'Geçti' : criteriaCheckResults['İyi Biçimlendirilmiş'].errorMessage ? criteriaCheckResults['İyi Biçimlendirilmiş'].errorMessage : 'Yok'}` + ',' +
@@ -77,9 +77,10 @@ export class ImportFileComponent implements OnInit {
           'Hata Mesajı': setCriteriaResults[key].errorMessage ? setCriteriaResults[key].errorMessage : 'Yok'
         });
       });
-      singleUserStoryReportList.forEach(userStoryRow => {
+      singleUserStoryReportList.forEach(( userStoryRow, index ) => {
         const {userStory, criteriaCheckResults} = userStoryRow;
         xlsxArray2.push({
+          '': 'KH' + (index + 1) + '',
           'Kullanıcı Hikayesi': userStory.userStorySentence,
           'Tam Cümle': criteriaCheckResults['Tam Cümle'].satisfiesThisCriteria ? 'Geçti' :
             criteriaCheckResults['Tam Cümle'].errorMessage ? criteriaCheckResults['Tam Cümle'].errorMessage : 'Yok',

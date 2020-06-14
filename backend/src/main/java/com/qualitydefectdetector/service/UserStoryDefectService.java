@@ -2,6 +2,7 @@ package com.qualitydefectdetector.service;
 
 import com.qualitydefectdetector.criteriaChecker.AtomicCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.ConflictFreeCriteriaChecker;
+import com.qualitydefectdetector.criteriaChecker.IndependentCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.MinimalCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.ProblemOrientedCriteriaChecker;
 import com.qualitydefectdetector.criteriaChecker.UniformCriteriaChecker;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import static com.qualitydefectdetector.enums.CriteriaType.ATOMIC;
 import static com.qualitydefectdetector.enums.CriteriaType.CONFLICT_FREE;
 import static com.qualitydefectdetector.enums.CriteriaType.FULL_SENTENCE;
+import static com.qualitydefectdetector.enums.CriteriaType.INDEPENDENT;
 import static com.qualitydefectdetector.enums.CriteriaType.MINIMAL;
 import static com.qualitydefectdetector.enums.CriteriaType.PROBLEM_ORIENTED;
 import static com.qualitydefectdetector.enums.CriteriaType.SPELLING;
@@ -46,6 +48,7 @@ public class UserStoryDefectService {
     private final UniqueCriteriaChecker uniqueCriteriaChecker;
     private final ProblemOrientedCriteriaChecker problemOrientedCriteriaChecker;
     private final ConflictFreeCriteriaChecker conflictFreeCriteriaChecker;
+    private final IndependentCriteriaChecker independentCriteriaChecker;
 
     @Autowired
     public UserStoryDefectService(UserStoryParser userStoryParser,
@@ -56,7 +59,8 @@ public class UserStoryDefectService {
                                   UniformCriteriaChecker uniformCriteriaChecker,
                                   UniqueCriteriaChecker uniqueCriteriaChecker,
                                   ProblemOrientedCriteriaChecker problemOrientedCriteriaChecker,
-                                  ConflictFreeCriteriaChecker conflictFreeCriteriaChecker) {
+                                  ConflictFreeCriteriaChecker conflictFreeCriteriaChecker,
+                                  IndependentCriteriaChecker independentCriteriaChecker) {
         this.userStoryParser = userStoryParser;
         this.zemberekProcessor = zemberekProcessor;
         this.wellFormedCriteriaChecker = wellFormedCriteriaChecker;
@@ -66,6 +70,7 @@ public class UserStoryDefectService {
         this.uniqueCriteriaChecker = uniqueCriteriaChecker;
         this.problemOrientedCriteriaChecker = problemOrientedCriteriaChecker;
         this.conflictFreeCriteriaChecker = conflictFreeCriteriaChecker;
+        this.independentCriteriaChecker = independentCriteriaChecker;
     }
 
     public SetOfUserStoryReport analyseMultipleUserStories(List<String> sentences) {
@@ -89,6 +94,8 @@ public class UserStoryDefectService {
                 .put(UNIQUE.getDisplayName(), uniqueCriteriaChecker.checkUserStorySetIsUnique(sentences));
         setOfUserStoryReport.getSetCriteriaResults()
                 .put(CONFLICT_FREE.getDisplayName(), conflictFreeCriteriaChecker.checkUserStorySetHasConflict(sentences));
+        setOfUserStoryReport.getSetCriteriaResults()
+                .put(INDEPENDENT.getDisplayName(), independentCriteriaChecker.checkUserStorySetIsIndependent(sentences));
 
         return setOfUserStoryReport;
     }
@@ -226,6 +233,10 @@ public class UserStoryDefectService {
 
     public CriteriaCheckResult checkConflictFreeCriteria(List<String> sentences) {
         return conflictFreeCriteriaChecker.checkUserStorySetHasConflict(sentences);
+    }
+
+    public CriteriaCheckResult checkIndependentCriteria(List<String> sentences) {
+        return independentCriteriaChecker.checkUserStorySetIsIndependent(sentences);
     }
 
     private CriteriaCheckResult notCheckedBecauseOfFormat() {
