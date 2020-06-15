@@ -17,9 +17,14 @@ import com.qualitydefectdetector.parser.UserStoryParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 
 import static com.qualitydefectdetector.enums.CriteriaType.ATOMIC;
 import static com.qualitydefectdetector.enums.CriteriaType.CONFLICT_FREE;
@@ -148,6 +153,54 @@ public class UserStoryDefectService {
                 .errorMessage("Bu kullanıcı hikayesinde " + numOfWrongSpelledWords + " kelime yanlış yazılmış!")
                 .description(SPELLING.getDescription())
                 .build();
+    }
+    public Map<String,List<String>> getSuggestions(String criteria, List<String> sentences){
+        if(criteria.equalsIgnoreCase(SPELLING.getDisplayName())){
+            return this.suggestionForSpelling(sentences.get(0));
+        }
+        else{
+            HashMap<String,List<String>> suggestionMap = new HashMap<>();
+            List<String> suggestionList = new ArrayList<>();
+            String suggestion = "";
+            if(criteria.equalsIgnoreCase(INDEPENDENT.getDisplayName())){
+                Pattern p = Pattern.compile("(KH|kh|Kh)[1-9]+");
+                for(String sentence:sentences){
+                    Matcher m = p.matcher(sentence);
+                    if(m.find()){
+                        if(suggestion == ""){
+                            suggestion = "Bağımsız kriterini sağlamak için bu kullanıcı hikayelerinizden" + m.group(0);
+                        }else{
+                            suggestion += ", " + m.group(0);
+                        }
+                    }
+                }
+                if(suggestion != ""){
+                    suggestion +=  " ifadesi kaldırılmalıdır.";
+                }
+            }
+            else if(criteria.equalsIgnoreCase(ATOMIC.getDisplayName())){
+                String conjuction = atomicCriteriaChecker.findConjuction(parse(sentences.get(0)));
+                suggestion = "Atomik kriterini sağlamak için " + conjuction + " bağlacı kaldırılarak iki ayrı kullanıcı hikayesi oluşturulmalıdır";
+            }
+            else if(criteria.equalsIgnoreCase(MINIMAL.getDisplayName())){
+                Pattern p = Pattern.compile("[-(].*[-)]");
+                Matcher m = p.matcher(sentences.get(0));
+                if(m.find()){
+                    suggestion = "Minimal kriterini sağlamak için bu kullanıcı hikayesinden " + m.group(0) + " ifadesi kaldırılmalıdır.";
+                }
+            }
+            else if(criteria.equalsIgnoreCase(UNIQUE.getDisplayName())){
+                CriteriaCheckResult result = uniqueCriteriaChecker.checkUserStorySetIsUnique(sentences);
+                String duplicatedSentences = result.getErrorMessage().substring(result.getErrorMessage().indexOf("["));
+                suggestion = "Eşi ve Benzeri Olmayan kriterini sağlamak için " + duplicatedSentences + "numaralı kullanıcı hikayelerindeki eş cümleler kaldırılmalıdır.";
+            }
+            if(suggestion == ""){
+                return null;
+            }
+            suggestionList.add(suggestion);
+            suggestionMap.put(criteria,suggestionList);
+            return suggestionMap;
+        }
     }
 
     public Map<String, List<String>> suggestionForSpelling(String sentence) {

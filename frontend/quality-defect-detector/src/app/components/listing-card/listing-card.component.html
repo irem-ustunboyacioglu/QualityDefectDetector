@@ -1,4 +1,4 @@
-<div *ngIf="singleUserStoryReport.userStory" class="user-story">
+<div *ngIf="singleUserStoryReport && singleUserStoryReport.userStory" class="user-story">
   <p class="user-story__result">
     <strong class="user-story__result__title">Format:</strong>
     <span class="user-story__result__text">
@@ -31,9 +31,8 @@
   </p>
 </div>
 <div class="listing-card">
-  <p class="listing-card__title">{{singleUserStoryReport.userStory ? 'Kriterler:' : 'Set Kriterler:'}}</p>
-  <div class="listing-card__criteria"
-    *ngFor="let criteria of singleUserStoryReport.criteriaCheckResults | keyvalue; let i = index"
+  <p class="listing-card__title">{{singleUserStoryReport ? 'Kriterler:' : 'Set Kriterler:'}}</p>
+  <div class="listing-card__criteria" *ngFor="let criteria of criteriaToBeListed | keyvalue; let i = index"
     [ngClass]="{'listing-card__success':criteria.value.satisfiesThisCriteria,'listing-card__error':!criteria.value.satisfiesThisCriteria}">
     <p>
       <i class="fa fa-question-circle listing-card__question-mark" (mouseenter)="showOrHideTooltip(i)"
@@ -42,8 +41,9 @@
       {{criteria.value.errorMessage ? criteria.value.errorMessage : "Bu cümle bu kriteri karşılamaktadır."}}
     </p>
     <span class="listing-card__checkmark"><i class="fas fa-check"></i></span>
-    <button *ngIf="!criteria.value.satisfiesThisCriteria && showSuggestionButton" (click)="showSuggestions()"
-      type="button" class="listing-card__show-recommendations">Önerileri Göster</button>
+    <button *ngIf="!criteria.value.satisfiesThisCriteria" (click)="showSuggestions(criteria.key)" type="button"
+      class="listing-card__show-recommendations">Önerileri
+      Göster</button>
     <span class="listing-card__tooltip">{{criteria.value.description}}</span>
   </div>
   <button type="button" class="listing-card__try-again" (click)="reset()">Tekrar Dene</button>

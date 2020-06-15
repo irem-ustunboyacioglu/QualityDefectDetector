@@ -31,9 +31,9 @@ export class UserStoryService {
   }
 
 
-  public suggestionForSpelling(userStory: string): Observable<Map<string, Array<string>>> {
-    return this.httpClient.get<Map<string, Array<string>>>(`${this.apiURL}/user-story-defects/check-spelling`,
-      { params: { sentence: userStory } });
+  public getSuggestions(criteria: string, sentences: Array<string>): Observable<Map<string, Array<string>>> {
+    return this.httpClient.get<Map<string, Array<string>>>(`${this.apiURL}/user-story-defects/suggestion`,
+      { params: { criteria, sentences } });
   }
 
   public formUserStory(formGroup: FormGroup): string {
