@@ -19,7 +19,7 @@
         Eklenen kullanıcı hikayeleri
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let userStory of userStoryList; index as i" >
+        <li class="list-group-item" *ngFor="let userStory of userStoryList; index as i">
           <span>
             <strong>KH{{i + 1}}:</strong>
           </span>
@@ -46,9 +46,14 @@
         (click)="changeIndex(currentIndexOfUserStoryDisplayed - 1)"></i>
       <i class="fas fa-chevron-right pop-up-modals__next-button"
         (click)="changeIndex(currentIndexOfUserStoryDisplayed + 1)"></i>
-      <app-listing-card [singleUserStoryReport]="currentIndexOfUserStoryDisplayed === 0 ?  {criteriaCheckResults : multipleUserStoryReport.setCriteriaResults}
+      <!-- <app-listing-card [singleUserStoryReport]="currentIndexOfUserStoryDisplayed === 0 ?  {criteriaCheckResults : multipleUserStoryReport.setCriteriaResults}
         : multipleUserStoryReport.singleUserStoryReportList[currentIndexOfUserStoryDisplayed - 1]"
         [showSuggestionButton]="false" (resetForm)="closeReportModal()">
+      </app-listing-card> -->
+      <app-listing-card [singleUserStoryReport]="currentIndexOfUserStoryDisplayed === 0 ?  null
+        : multipleUserStoryReport.singleUserStoryReportList[currentIndexOfUserStoryDisplayed - 1]"
+        [multipleUserStoryReport]="currentIndexOfUserStoryDisplayed === 0 ?  multipleUserStoryReport
+        : null" (resetForm)="closeReportModal()">
       </app-listing-card>
     </div>
   </div>

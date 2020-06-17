@@ -50,6 +50,12 @@ public class UserStoryDefectController {
         return userStoryDefectService.suggestionForSpelling(sentence);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestion")
+    public Map<String, List<String>> getSuggestions(@RequestParam String criteria,@RequestParam List<String> sentences) {
+        return userStoryDefectService.getSuggestions(criteria,sentences);
+    }
+
     @GetMapping("/well-formed")
     public CriteriaCheckResult checkWellFormedCriteria(@RequestParam String sentence) {
         return userStoryDefectService.checkWellFormedCriteria(sentence);

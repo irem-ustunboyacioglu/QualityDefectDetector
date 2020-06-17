@@ -56,4 +56,25 @@ public class AtomicCriteriaChecker {
                 .description(ATOMIC.getDescription())
                 .build();
     }
+
+    public String findConjuction(UserStory userStory){
+        if (!userStory.getUserStoryType().equals(ROLE_GOAL.getDisplayName())) {
+            List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getReason());
+            for (SingleAnalysis item : analysis) {
+                String itemAnalysis = item.formatLong();
+                if (itemAnalysis.contains("Conj")) {
+                    return itemAnalysis.substring(1,itemAnalysis.indexOf(":"));
+                }
+            }
+        }
+
+        List<SingleAnalysis> analysis = zemberekProcessor.analyzeAndDisambiguate(userStory.getGoal());
+        for (SingleAnalysis item : analysis) {
+            String itemAnalysis = item.formatLong();
+            if (itemAnalysis.contains("Conj")) {
+                return itemAnalysis.substring(1,itemAnalysis.indexOf(":"));
+            }
+        }
+        return "";
+    }
 }
